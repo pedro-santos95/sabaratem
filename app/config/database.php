@@ -4,8 +4,8 @@ $isLocal = in_array($_SERVER['HTTP_HOST'] ?? '', ['localhost', '127.0.0.1'], tru
     || (($_SERVER['SERVER_NAME'] ?? '') === 'localhost');
 
 $DB_HOST = getenv('DB_HOST') ?: 'localhost';
-$DB_NAME = getenv('DB_NAME') ?: ($isLocal ? 'sabaratem' : 'u318929259_sabaratem');
-$DB_USER = getenv('DB_USER') ?: ($isLocal ? 'root' : 'u318929259_comercial');
+$DB_NAME = getenv('DB_NAME') ?: ($isLocal ? 'sabaratem' : 'u318929259_sabara2026');
+$DB_USER = getenv('DB_USER') ?: ($isLocal ? 'root' : 'u318929259_Sabara');
 $DB_PASS = getenv('DB_PASSWORD');
 if ($DB_PASS === false) {
     $DB_PASS = $isLocal ? '' : '36747132Ph';
