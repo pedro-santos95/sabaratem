@@ -1,0 +1,23 @@
+﻿RewriteEngine On
+
+# Acesso direto
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Public (agora na raiz)
+RewriteRule ^$ index.php [L]
+RewriteRule ^index.php$ index.php [L]
+RewriteRule ^produto.php$ produto.php [L,QSA]
+RewriteRule ^loja.php$ loja.php [L,QSA]
+RewriteRule ^lojistas.php$ lojistas.php [L,QSA]
+RewriteRule ^sobre.php$ sobre.php [L,QSA]
+
+# Admin
+RewriteRule ^admin/?$ admin/index.php [L,QSA]
+RewriteRule ^admin/lojistas.php$ admin/lojistas.php [L,QSA]
+RewriteRule ^admin/produtos.php$ admin/produtos.php [L,QSA]
+RewriteRule ^admin/categorias.php$ admin/categorias.php [L,QSA]
+RewriteRule ^admin/login.php$ admin/login.php [L,QSA]
+RewriteRule ^admin/logout.php$ admin/logout.php [L,QSA]
+RewriteRule ^admin/senha.php$ admin/senha.php [L,QSA]
