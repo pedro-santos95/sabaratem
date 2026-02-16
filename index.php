@@ -27,7 +27,6 @@ require_once BASE_PATH . '/includes/header.php';
       <p>Explore o comércio local em um só lugar. Escolha seus produtos favoritos e compre direto pelo WhatsApp.</p>
       <div class="hero-actions">
         <a class="btn" href="#produtos">Ver Produtos</a>
-        <a class="btn-outline" href="<?php echo e($base); ?>/admin/index.php">Cadastrar Loja</a>
       </div>
     </div>
     <div class="hero-media">

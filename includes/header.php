@@ -66,13 +66,13 @@ if ($is_admin_path) {
 <body data-public-base="<?php echo e($public_base); ?>" data-asset-base="<?php echo e($asset_base); ?>">
 <header class="site-header">
   <div class="container header-row">
-    <div class="brand">
+    <a class="brand" href="<?php echo e($public_base); ?>/index.php" aria-label="Ir para a página inicial">
       <span class="brand-icon">🔒</span>
       <div class="brand-text">
         <span class="brand-name">sabara<span>Tem</span></span>
         <span class="brand-tag">Vitrine local</span>
       </div>
-    </div>
+    </a>
 
     <div class="search">
       <form action="<?php echo e($public_base); ?>/index.php" method="get">

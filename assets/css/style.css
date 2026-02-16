@@ -586,6 +586,9 @@ body {
   .search form {
     width: 100%;
   }
+  .hero-media {
+    display: none;
+  }
   .cat-grid {
     display: flex;
     gap: 10px;
