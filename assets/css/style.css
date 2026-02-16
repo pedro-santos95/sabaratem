@@ -429,48 +429,119 @@ body {
 
 .admin-layout {
   display: flex;
-  gap: 16px;
+  gap: 18px;
   margin-top: 20px;
+  align-items: flex-start;
 }
 
 .sidebar {
-  min-width: 160px;
+  min-width: 210px;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 12px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
+  position: sticky;
+  top: 14px;
+}
+
+.sidebar a {
+  display: block;
+  text-decoration: none;
+  color: #1f4f57;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 9px 10px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.sidebar a:hover {
+  background: #eef6f5;
+}
+
+.sidebar a.active {
+  background: var(--brand);
+  color: #fff;
+}
+
+.sidebar a.danger {
+  color: #9f1239;
+}
+
+.sidebar a.danger:hover {
+  background: #fff1f2;
 }
 
 .admin-content {
   flex: 1;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.admin-content h1 {
+  margin-bottom: 14px;
 }
 
 .form {
   display: grid;
-  gap: 10px;
-  background: #fff;
-  border: 1px solid var(--border);
+  gap: 12px;
+  background: #fcfcfd;
+  border: 1px solid #e4e8eb;
   border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 16px;
+  padding: 14px;
+  margin-bottom: 18px;
+}
+
+.form label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .form input,
 .form textarea,
 .form select {
   width: 100%;
-  padding: 8px 10px;
+  padding: 9px 10px;
   border: 1px solid var(--border);
   border-radius: 8px;
+  background: #fff;
+}
+
+.form input:focus,
+.form textarea:focus,
+.form select:focus {
+  outline: none;
+  border-color: #65a7b1;
+  box-shadow: 0 0 0 3px rgba(11, 77, 87, 0.12);
+}
+
+.form .btn {
+  border: 0;
+  cursor: pointer;
+  font-weight: 700;
+  width: fit-content;
+  min-width: 130px;
 }
 
 .form-error {
   background: #fff1f2;
   color: #9f1239;
   border: 1px solid #fecdd3;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.form-success {
+  background: #ecfdf3;
+  color: #166534;
+  border: 1px solid #86efac;
   padding: 8px 10px;
   border-radius: 8px;
   font-size: 14px;
@@ -526,9 +597,21 @@ body {
 
 .table th,
 .table td {
-  padding: 8px 10px;
+  padding: 10px 12px;
   border-bottom: 1px solid var(--border);
   text-align: left;
+  vertical-align: middle;
+}
+
+.table th {
+  background: #f7fafb;
+  color: #355d64;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.table tr:hover td {
+  background: #fbfefe;
 }
 
 .table-wrap {
@@ -537,16 +620,55 @@ body {
   border-radius: 12px;
 }
 
+.table-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.action-link {
+  display: inline-block;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.action-link.edit {
+  background: #e0f2fe;
+  color: #075985;
+}
+
+.action-link.delete {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
 .metrics {
   display: flex;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .metric-card {
-  background: #fff;
-  border: 1px solid var(--border);
+  background: #f8fbfc;
+  border: 1px solid #dbe8ec;
   border-radius: 12px;
-  padding: 12px;
+  padding: 14px;
+  min-width: 200px;
+}
+
+.metric-card span {
+  color: #4b6b72;
+  font-size: 13px;
+}
+
+.metric-card strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 28px;
+  color: var(--brand);
 }
 
 @media (max-width: 900px) {
@@ -564,9 +686,23 @@ body {
     flex-direction: row;
     overflow-x: auto;
     white-space: nowrap;
+    position: static;
+    min-width: 100%;
   }
   .sidebar a {
     flex: 0 0 auto;
+  }
+  .admin-content {
+    padding: 12px;
+  }
+  .form .btn {
+    width: 100%;
+    min-width: 0;
+  }
+  .table th,
+  .table td {
+    font-size: 13px;
+    padding: 9px 10px;
   }
 }
 

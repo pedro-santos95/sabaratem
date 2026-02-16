@@ -49,7 +49,7 @@ require_once '../includes/header.php';
       <label>SVG (caminho ou URL)
         <input type="text" name="svg" value="<?php echo e($edit['svg'] ?? ''); ?>" placeholder="assets/img/categorias/bebidas.svg">
       </label>
-      <button type="submit">Salvar</button>
+      <button class="btn" type="submit">Salvar</button>
     </form>
 
     <div class="table-wrap">
@@ -66,9 +66,9 @@ require_once '../includes/header.php';
             <tr>
               <td><?php echo e($c['nome']); ?></td>
               <td><?php echo e($c['svg']); ?></td>
-              <td>
-                <a href="categorias.php?edit=<?php echo e($c['id']); ?>">Editar</a>
-                <a href="categorias.php?delete=<?php echo e($c['id']); ?>" onclick="return confirm('Excluir categoria?');">Excluir</a>
+              <td class="table-actions">
+                <a class="action-link edit" href="categorias.php?edit=<?php echo e($c['id']); ?>">Editar</a>
+                <a class="action-link delete" href="categorias.php?delete=<?php echo e($c['id']); ?>" onclick="return confirm('Excluir categoria?');">Excluir</a>
               </td>
             </tr>
           <?php endforeach; ?>

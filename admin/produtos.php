@@ -92,7 +92,7 @@ require_once '../includes/header.php';
       <label>Porcentagem da promocao (%)
         <input type="number" name="porcentagem_promocao" min="0" max="99" value="<?php echo e((int)($edit['porcentagem_promocao'] ?? 0)); ?>">
       </label>
-      <button type="submit">Salvar</button>
+      <button class="btn" type="submit">Salvar</button>
     </form>
 
     <div class="table-wrap">
@@ -113,9 +113,9 @@ require_once '../includes/header.php';
               <td><?php echo e($p['loja_nome']); ?></td>
               <td><?php echo e(format_price($p['preco'])); ?></td>
               <td><?php echo !empty($p['em_promocao']) ? ('-' . e((int)$p['porcentagem_promocao']) . '%') : 'Nao'; ?></td>
-              <td>
-                <a href="produtos.php?edit=<?php echo e($p['id']); ?>">Editar</a>
-                <a href="produtos.php?delete=<?php echo e($p['id']); ?>" onclick="return confirm('Excluir produto?');">Excluir</a>
+              <td class="table-actions">
+                <a class="action-link edit" href="produtos.php?edit=<?php echo e($p['id']); ?>">Editar</a>
+                <a class="action-link delete" href="produtos.php?delete=<?php echo e($p['id']); ?>" onclick="return confirm('Excluir produto?');">Excluir</a>
               </td>
             </tr>
           <?php endforeach; ?>

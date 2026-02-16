@@ -50,7 +50,7 @@ require_once '../includes/header.php';
       <label>Senha
         <input type="password" name="pass" required>
       </label>
-      <button type="submit">Entrar</button>
+      <button class="btn" type="submit">Entrar</button>
     </form>
   </div>
 </div>

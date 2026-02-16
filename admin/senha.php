@@ -41,10 +41,10 @@ require_once '../includes/header.php';
 
     <form class="form" method="post">
       <?php if ($error): ?>
-        <p><?php echo e($error); ?></p>
+        <p class="form-error"><?php echo e($error); ?></p>
       <?php endif; ?>
       <?php if ($success): ?>
-        <p><?php echo e($success); ?></p>
+        <p class="form-success"><?php echo e($success); ?></p>
       <?php endif; ?>
       <label>Senha atual
         <input type="password" name="current" required>
@@ -55,7 +55,7 @@ require_once '../includes/header.php';
       <label>Confirmar nova senha
         <input type="password" name="confirm" required>
       </label>
-      <button type="submit">Salvar</button>
+      <button class="btn" type="submit">Salvar</button>
     </form>
   </section>
 </div>

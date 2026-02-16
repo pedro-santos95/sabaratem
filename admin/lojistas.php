@@ -69,7 +69,7 @@ require_once '../includes/header.php';
       <label>Logo (URL)
         <input type="text" name="logo" value="<?php echo e($edit['logo'] ?? ''); ?>">
       </label>
-      <button type="submit">Salvar</button>
+      <button class="btn" type="submit">Salvar</button>
     </form>
 
     <div class="table-wrap">
@@ -88,9 +88,9 @@ require_once '../includes/header.php';
               <td><?php echo e($l['nome']); ?></td>
               <td><?php echo e($l['whatsapp']); ?></td>
               <td><?php echo e($l['telefone']); ?></td>
-              <td>
-                <a href="lojistas.php?edit=<?php echo e($l['id']); ?>">Editar</a>
-                <a href="lojistas.php?delete=<?php echo e($l['id']); ?>" onclick="return confirm('Excluir lojista?');">Excluir</a>
+              <td class="table-actions">
+                <a class="action-link edit" href="lojistas.php?edit=<?php echo e($l['id']); ?>">Editar</a>
+                <a class="action-link delete" href="lojistas.php?delete=<?php echo e($l['id']); ?>" onclick="return confirm('Excluir lojista?');">Excluir</a>
               </td>
             </tr>
           <?php endforeach; ?>
