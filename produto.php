@@ -16,7 +16,7 @@ require_once BASE_PATH . '/includes/header.php';
   <p>Produto nao encontrado.</p>
 <?php else: ?>
   <section class="produto">
-    <img src="<?php echo e(img_src($produto['imagem'])); ?>" alt="<?php echo e($produto['nome']); ?>">
+    <img src="<?php echo e(img_src($produto['imagem'])); ?>" alt="<?php echo e($produto['nome']); ?>" loading="eager" fetchpriority="high" decoding="async">
     <div>
       <h1><?php echo e($produto['nome']); ?></h1>
       <p class="price"><?php echo e(format_price($produto['preco_final'] ?? $produto['preco'])); ?></p>

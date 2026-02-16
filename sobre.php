@@ -15,7 +15,7 @@ require_once BASE_PATH . '/includes/header.php';
       <p>O SabaraTem e uma vitrine virtual criada para fortalecer o comercio local, aproximar clientes e lojistas e facilitar compras diretas via WhatsApp.</p>
     </div>
     <div class="hero-media">
-      <img src="<?php echo e($asset_base); ?>/img/banner.png" alt="SabaraTem">
+      <img src="<?php echo e($asset_base); ?>/img/banner.png" alt="SabaraTem" loading="lazy" decoding="async">
     </div>
   </div>
 </section>

@@ -18,7 +18,7 @@ require_once BASE_PATH . '/includes/header.php';
   <p>Loja nao encontrada.</p>
 <?php else: ?>
   <section class="loja">
-    <img class="logo" src="<?php echo e(img_src($loja['logo'])); ?>" alt="<?php echo e($loja['nome']); ?>">
+    <img class="logo" src="<?php echo e(img_src($loja['logo'])); ?>" alt="<?php echo e($loja['nome']); ?>" loading="eager" decoding="async">
     <div>
       <h1><?php echo e($loja['nome']); ?></h1>
       <?php if (!empty($loja['descricao'])): ?>
@@ -40,7 +40,7 @@ require_once BASE_PATH . '/includes/header.php';
   <section class="grid">
     <?php foreach ($produtos as $p): ?>
       <article class="card">
-        <img src="<?php echo e(img_src($p['imagem'])); ?>" alt="<?php echo e($p['nome']); ?>">
+        <img src="<?php echo e(img_src($p['imagem'])); ?>" alt="<?php echo e($p['nome']); ?>" loading="lazy" decoding="async">
         <div class="card-body">
           <h2><?php echo e($p['nome']); ?></h2>
           <p class="price"><?php echo e(format_price($p['preco'])); ?></p>

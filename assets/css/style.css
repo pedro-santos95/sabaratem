@@ -294,6 +294,8 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 6px;
+  padding: 4px;
+  min-height: 76px;
   text-decoration: none;
   color: var(--text);
   font-size: 12px;
@@ -584,6 +586,18 @@ body {
   .search form {
     width: 100%;
   }
+  .cat-grid {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scroll-snap-type: x mandatory;
+  }
+  .cat-item {
+    flex: 0 0 auto;
+    min-width: 78px;
+    scroll-snap-align: start;
+  }
 }
 
 @media (min-width: 900px) {
@@ -597,12 +611,9 @@ body {
 }
 
 @media (max-width: 480px) {
-  .cat-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
   .cat-icon {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
   }
 }
 

@@ -17,7 +17,7 @@ require_once BASE_PATH . '/includes/header.php';
   <div class="grid">
     <?php foreach ($lojistas as $l): ?>
       <article class="card">
-        <img src="<?php echo e(img_src($l['logo'] ?? '')); ?>" alt="<?php echo e($l['nome']); ?>">
+        <img src="<?php echo e(img_src($l['logo'] ?? '')); ?>" alt="<?php echo e($l['nome']); ?>" loading="lazy" decoding="async">
         <div class="card-body">
           <h2><?php echo e($l['nome']); ?></h2>
           <?php if (!empty($l['descricao'])): ?>

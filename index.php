@@ -31,7 +31,7 @@ require_once BASE_PATH . '/includes/header.php';
       </div>
     </div>
     <div class="hero-media">
-      <img src="<?php echo e($asset_base); ?>/img/banner.png" alt="Sabará">
+      <img src="<?php echo e($asset_base); ?>/img/banner.png" alt="Sabará" loading="eager" fetchpriority="high" decoding="async">
     </div>
   </div>
 </section>
@@ -49,7 +49,7 @@ require_once BASE_PATH . '/includes/header.php';
       <a href="<?php echo e($public_base); ?>/index.php?categoria_id=<?php echo e($c['id']); ?>" data-categoria="<?php echo e($c['id']); ?>" class="cat-item <?php echo ($categoria_id == $c['id']) ? 'active' : ''; ?>">
         <span class="cat-icon">
           <?php if (!empty($c['svg'])): ?>
-            <img src="<?php echo e(asset_path($c['svg'])); ?>" alt="<?php echo e($c['nome']); ?>">
+            <img src="<?php echo e(asset_path($c['svg'])); ?>" alt="<?php echo e($c['nome']); ?>" loading="lazy" decoding="async">
           <?php else: ?>
             <?php echo e(mb_substr($c['nome'], 0, 1)); ?>
           <?php endif; ?>
@@ -70,7 +70,7 @@ require_once BASE_PATH . '/includes/header.php';
         <?php if (!empty($p['em_promocao']) && (int)$p['porcentagem_promocao'] > 0): ?>
           <span class="promo-badge">-<?php echo e((int)$p['porcentagem_promocao']); ?>%</span>
         <?php endif; ?>
-        <img src="<?php echo e(img_src($p['imagem'])); ?>" alt="<?php echo e($p['nome']); ?>">
+        <img src="<?php echo e(img_src($p['imagem'])); ?>" alt="<?php echo e($p['nome']); ?>" loading="lazy" decoding="async">
         <div class="card-body">
           <h2><?php echo e($p['nome']); ?></h2>
           <p class="price"><?php echo e(format_price($p['preco_final'] ?? $p['preco'])); ?></p>

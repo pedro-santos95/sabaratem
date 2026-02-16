@@ -49,7 +49,7 @@
       items.forEach(function (item) {
         var img = normalizeAsset(item.imagem);
         html += '<a class="search-item" href="' + publicBase + '/produto.php?id=' + item.id + '">' +
-          '<img src="' + img + '" alt="' + item.nome.replace(/"/g, '') + '">' +
+          '<img src="' + img + '" alt="' + item.nome.replace(/"/g, '') + '" loading="lazy" decoding="async">' +
           '<div><strong>' + item.nome + '</strong></div>' +
         '</a>';
       });
@@ -113,7 +113,7 @@
       }
       html += '<article class="card">' +
         badge +
-        '<img src="' + img + '" alt="' + p.nome.replace(/"/g, '') + '">' +
+        '<img src="' + img + '" alt="' + p.nome.replace(/"/g, '') + '" loading="lazy" decoding="async">' +
         '<div class="card-body">' +
           '<h2>' + p.nome + '</h2>' +
           '<p class="price">R$ ' + Number(p.preco_final || p.preco).toFixed(2).replace('.', ',') + '</p>' +
