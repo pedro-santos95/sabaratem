@@ -19,18 +19,23 @@ class Produto {
         }
 
         if ($q) {
-            $where[] = 'p.nome LIKE ?';
-            $params[] = '%' . $q . '%';
+            $where[] = '(p.nome LIKE ? OR p.descricao LIKE ? OR l.nome LIKE ? OR c.nome LIKE ?)';
+            $like = '%' . $q . '%';
+            $params[] = $like;
+            $params[] = $like;
+            $params[] = $like;
+            $params[] = $like;
         }
 
-        $sql = 'SELECT p.*, l.nome AS loja_nome, l.whatsapp AS loja_whatsapp,
+        $sql = 'SELECT p.*, l.nome AS loja_nome, l.whatsapp AS loja_whatsapp, c.nome AS categoria_nome,
                 CASE
                     WHEN p.em_promocao = 1 AND p.porcentagem_promocao > 0
                     THEN ROUND(p.preco * (1 - (p.porcentagem_promocao / 100)), 2)
                     ELSE p.preco
                 END AS preco_final
                 FROM produtos p
-                LEFT JOIN lojas l ON l.id = p.loja_id';
+                LEFT JOIN lojas l ON l.id = p.loja_id
+                LEFT JOIN categorias c ON c.id = p.categoria_id';
 
         if ($where) {
             $sql .= ' WHERE ' . implode(' AND ', $where);

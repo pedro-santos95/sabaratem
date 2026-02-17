@@ -39,18 +39,31 @@
       results.classList.remove('active');
     }
 
-    function renderItems(items) {
+    function renderItems(payload) {
+      var query = payload && payload.query ? payload.query : '';
+      var items = payload && payload.items ? payload.items : [];
       if (!items.length) {
-        clearResults();
+        results.innerHTML = '<div class="search-title">Nenhum resultado para "' + query.replace(/"/g, '') + '"</div>' +
+          '<div class="search-empty">Tente buscar por nome do produto, loja ou categoria.</div>';
+        results.classList.add('active');
         return;
       }
 
-      var html = '<div class="search-title">Resultados</div>';
+      var html = '<div class="search-title">Resultados para "' + query.replace(/"/g, '') + '"</div>';
       items.forEach(function (item) {
         var img = normalizeAsset(item.imagem);
+        var meta = [];
+        if (item.loja_nome) {
+          meta.push('Loja: ' + item.loja_nome);
+        }
+        if (item.categoria_nome) {
+          meta.push('Categoria: ' + item.categoria_nome);
+        }
         html += '<a class="search-item" href="' + publicBase + '/produto.php?id=' + item.id + '">' +
           '<img src="' + img + '" alt="' + item.nome.replace(/"/g, '') + '" loading="lazy" decoding="async">' +
-          '<div><strong>' + item.nome + '</strong></div>' +
+          '<div><strong>' + item.nome + '</strong>' +
+          (meta.length ? '<small>' + meta.join(' · ') + '</small>' : '') +
+          '</div>' +
         '</a>';
       });
       results.innerHTML = html;
@@ -64,9 +77,16 @@
       controller = new AbortController();
 
       fetch(publicBase + '/search.php?q=' + encodeURIComponent(q), { signal: controller.signal })
-        .then(function (res) { return res.json(); })
+        .then(function (res) {
+          if (!res.ok) {
+            throw new Error('Falha na busca');
+          }
+          return res.json();
+        })
         .then(function (data) { renderItems(data); })
-        .catch(function () {});
+        .catch(function () {
+          clearResults();
+        });
     }
 
     input.addEventListener('input', function () {

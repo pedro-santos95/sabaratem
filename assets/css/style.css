@@ -145,6 +145,22 @@ body {
   object-fit: cover;
 }
 
+.search-item div {
+  display: grid;
+  gap: 2px;
+}
+
+.search-item small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.search-empty {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 6px 4px 2px;
+}
+
 .nav {
   display: flex;
   align-items: center;
