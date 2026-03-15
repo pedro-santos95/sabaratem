@@ -381,13 +381,33 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  flex: 1;
 }
 
+.card-body h2 {
+  font-size: 15px;
+  line-height: 1.2;
+  min-height: 36px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .price {
   color: var(--accent);
   font-weight: 700;
 }
 
+.card-actions {
+  margin-top: auto;
+  display: grid;
+  gap: 8px;
+}
+
+.card-actions .btn,
+.card-actions .btn-outline {
+  width: 100%;
+}
 .promo-badge {
   position: absolute;
   top: 10px;
@@ -782,3 +802,4 @@ body {
     max-width: 360px;
   }
 }
+

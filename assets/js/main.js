@@ -137,8 +137,10 @@
         '<div class="card-body">' +
           '<h2>' + p.nome + '</h2>' +
           '<p class="price">R$ ' + Number(p.preco_final || p.preco).toFixed(2).replace('.', ',') + '</p>' +
-          '<a class="btn" href="' + publicBase + '/produto.php?id=' + p.id + '">Ver produto</a>' +
-          (whatsapp ? '<a class="btn-outline" target="_blank" rel="noopener" href="https://wa.me/' + whatsapp + '?text=' + encodeURIComponent('Ola! Tenho interesse no produto: ' + p.nome) + '">WhatsApp</a>' : '') +
+          '<div class="card-actions">' +
+            '<a class="btn" href="' + publicBase + '/produto.php?id=' + p.id + '">Ver produto</a>' +
+            (whatsapp ? '<a class="btn-outline" target="_blank" rel="noopener" href="https://wa.me/' + whatsapp + '?text=' + encodeURIComponent('Ola! Tenho interesse no produto: ' + p.nome) + '">WhatsApp</a>' : '') +
+          '</div>' +
         '</div>' +
       '</article>';
     });

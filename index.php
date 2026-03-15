@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 define('BASE_PATH', __DIR__);
 
 require_once BASE_PATH . '/app/config/database.php';
@@ -22,15 +22,15 @@ require_once BASE_PATH . '/includes/header.php';
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-content">
-      <span class="hero-chip">Descubra Sabará</span>
-      <h1>Tudo o que você precisa, <span>Sabará tem</span>.</h1>
-      <p>Explore o comércio local em um só lugar. Escolha seus produtos favoritos e compre direto pelo WhatsApp.</p>
+      <span class="hero-chip">Descubra SabarÃ¡</span>
+      <h1>Tudo o que vocÃª precisa, <span>SabarÃ¡ tem</span>.</h1>
+      <p>Explore o comÃ©rcio local em um sÃ³ lugar. Escolha seus produtos favoritos e compre direto pelo WhatsApp.</p>
       <div class="hero-actions">
         <a class="btn" href="#produtos">Ver Produtos</a>
       </div>
     </div>
     <div class="hero-media">
-      <img src="<?php echo e($asset_base); ?>/img/banner.png" alt="Sabará" loading="eager" fetchpriority="high" decoding="async">
+      <img src="<?php echo e($asset_base); ?>/img/banner.png" alt="SabarÃ¡" loading="eager" fetchpriority="high" decoding="async">
     </div>
   </div>
 </section>
@@ -73,8 +73,10 @@ require_once BASE_PATH . '/includes/header.php';
         <div class="card-body">
           <h2><?php echo e($p['nome']); ?></h2>
           <p class="price"><?php echo e(format_price($p['preco_final'] ?? $p['preco'])); ?></p>
-          <a class="btn" href="produto.php?id=<?php echo e($p['id']); ?>">Ver produto</a>
-          <a class="btn-outline" href="<?php echo e(wa_link($p['loja_whatsapp'], 'Ola! Tenho interesse no produto: ' . $p['nome'])); ?>" target="_blank">WhatsApp</a>
+          <div class="card-actions">
+            <a class="btn" href="produto.php?id=<?php echo e($p['id']); ?>">Ver produto</a>
+            <a class="btn-outline" href="<?php echo e(wa_link($p['loja_whatsapp'], 'Ola! Tenho interesse no produto: ' . $p['nome'])); ?>" target="_blank">WhatsApp</a>
+          </div>
         </div>
       </article>
     <?php endforeach; ?>
