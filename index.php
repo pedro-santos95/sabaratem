@@ -22,9 +22,9 @@ require_once BASE_PATH . '/includes/header.php';
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-content">
-      <span class="hero-chip">Descubra SabarÃ¡</span>
-      <h1>Tudo o que vocÃª precisa, <span>SabarÃ¡ tem</span>.</h1>
-      <p>Explore o comÃ©rcio local em um sÃ³ lugar. Escolha seus produtos favoritos e compre direto pelo WhatsApp.</p>
+      <span class="hero-chip">Descubra Sabará</span>
+      <h1>Tudo o que você precisa, <span>Sabará tem</span>.</h1>
+      <p>Explore o comércio local em um só lugar. Escolha seus produtos favoritos e compre direto pelo WhatsApp.</p>
       <div class="hero-actions">
         <a class="btn" href="#produtos">Ver Produtos</a>
       </div>
@@ -83,3 +83,4 @@ require_once BASE_PATH . '/includes/header.php';
   </div>
 </section>
 <?php require_once BASE_PATH . '/includes/footer.php'; ?>
+
