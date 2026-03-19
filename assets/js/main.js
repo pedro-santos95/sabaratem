@@ -1,4 +1,4 @@
-﻿document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
   var links = document.querySelectorAll('a');
   links.forEach(function (link) {
     if (link.getAttribute('target') === '_blank') {
@@ -139,7 +139,7 @@
           '<p class="price">R$ ' + Number(p.preco_final || p.preco).toFixed(2).replace('.', ',') + '</p>' +
           '<div class="card-actions">' +
             '<a class="btn" href="' + publicBase + '/produto.php?id=' + p.id + '">Ver produto</a>' +
-            (whatsapp ? '<a class="btn-outline" target="_blank" rel="noopener" href="https://wa.me/' + whatsapp + '?text=' + encodeURIComponent('Ola! Tenho interesse no produto: ' + p.nome) + '">WhatsApp</a>' : '') +
+            (whatsapp ? '<a class="btn-outline" target="_blank" rel="noopener" href="https://wa.me/' + whatsapp + '?text=' + encodeURIComponent('Olá! Tenho interesse no produto: ' + p.nome) + '">WhatsApp</a>' : '') +
           '</div>' +
         '</div>' +
       '</article>';
@@ -213,3 +213,6 @@
     });
   }
 });
+
+
+

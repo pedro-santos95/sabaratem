@@ -1,7 +1,7 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../app/helpers/functions.php';
-$page_title = $page_title ?? 'SabaraTem';
-$page_description = $page_description ?? 'Vitrine virtual local - SabaraTem';
+$page_title = $page_title ?? 'SabaráTem';
+$page_description = $page_description ?? 'Vitrine virtual local - SabaráTem';
 $search_query = $search_query ?? '';
 $show_nav = $show_nav ?? true;
 $page_robots = $page_robots ?? null;
@@ -56,21 +56,21 @@ if ($is_admin_path) {
   <meta property="og:description" content="<?php echo e($page_description); ?>">
   <meta property="og:image" content="<?php echo e($page_og_image); ?>">
   <meta property="og:locale" content="pt_BR">
-  <meta property="og:site_name" content="SabaraTem">
+  <meta property="og:site_name" content="SabaráTem">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="<?php echo e($page_title); ?>">
   <meta name="twitter:description" content="<?php echo e($page_description); ?>">
   <meta name="twitter:image" content="<?php echo e($page_og_image); ?>">
-  <link rel="stylesheet" href="<?php echo e($asset_base); ?>/css/style.css?v=5">
+  <link rel="stylesheet" href="<?php echo e($asset_base); ?>/css/style.css?v=12">
 </head>
 <body data-public-base="<?php echo e($public_base); ?>" data-asset-base="<?php echo e($asset_base); ?>">
 <header class="site-header">
   <div class="container header-row">
     <a class="brand" href="<?php echo e($public_base); ?>/index.php" aria-label="Ir para a página inicial">
-      <span class="brand-icon">🔒</span>
+      <img class="brand-icon" src="<?php echo e($asset_base); ?>/img/logo.png" alt="SabaráTem">
       <div class="brand-text">
-        <span class="brand-name">sabara<span>Tem</span></span>
-        <span class="brand-tag">Vitrine local</span>
+        <span class="brand-name">Sabará<span>Tem</span></span>
+        <span class="brand-tag">Vitrine local de Sabará</span>
       </div>
     </a>
 
@@ -87,7 +87,7 @@ if ($is_admin_path) {
         <a href="<?php echo e($public_base); ?>/sobre.php">Sobre</a>
         <a class="nav-cta" href="<?php echo e($base); ?>/admin/index.php">Anuncie aqui</a>
       </nav>
-      <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">☰</button>
+      <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">&#9776;</button>
     <?php endif; ?>
   </div>
   <?php if ($show_nav): ?>
@@ -99,4 +99,20 @@ if ($is_admin_path) {
   <?php endif; ?>
 </header>
 <main class="container">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

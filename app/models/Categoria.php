@@ -34,3 +34,4 @@ class Categoria {
         return $pdo->prepare('DELETE FROM categorias WHERE id = ?')->execute([$id]);
     }
 }
+

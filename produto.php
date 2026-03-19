@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 define('BASE_PATH', __DIR__);
 
 require_once BASE_PATH . '/app/config/database.php';
@@ -13,17 +13,50 @@ $page_description = $produto ? $produto['descricao'] : 'Produto SabaraTem';
 require_once BASE_PATH . '/includes/header.php';
 ?>
 <?php if (!$produto): ?>
-  <p>Produto nao encontrado.</p>
+  <p>Produto não encontrado.</p>
 <?php else: ?>
   <section class="produto">
     <img src="<?php echo e(img_src($produto['imagem'])); ?>" alt="<?php echo e($produto['nome']); ?>" loading="eager" fetchpriority="high" decoding="async">
     <div>
       <h1><?php echo e($produto['nome']); ?></h1>
-      <p class="price"><?php echo e(format_price($produto['preco_final'] ?? $produto['preco'])); ?></p>
+      <div class="price-block">
+        <?php if (!empty($produto['promo_ativa'])): ?>
+          <span class="price-original"><?php echo e(format_price($produto['preco'])); ?></span>
+          <span class="price price-final"><?php echo e(format_price($produto['preco_final'])); ?></span>
+        <?php else: ?>
+          <span class="price price-final"><?php echo e(format_price($produto['preco'])); ?></span>
+        <?php endif; ?>
+        <?php if (!empty($produto['preco_alternativo'])): ?>
+          <span class="price-alt">Preço alternativo: <?php echo e(format_price($produto['preco_alternativo'])); ?></span>
+        <?php endif; ?>
+        <?php if (!empty($produto['texto_alternativo'])): ?>
+          <span class="price-note"><?php echo e($produto['texto_alternativo']); ?></span>
+        <?php endif; ?>
+        <?php if (!empty($produto['promo_ativa']) && !empty($produto['data_fim_promocao'])): ?>
+          <?php
+            $fim = DateTime::createFromFormat('Y-m-d', $produto['data_fim_promocao']);
+            $mostrar_prazo = false;
+            if ($fim) {
+              $hoje = new DateTime('today');
+              if ($fim >= $hoje) {
+                $dias = (int)$hoje->diff($fim)->format('%a');
+                $mostrar_prazo = $dias <= 3;
+              }
+            }
+          ?>
+          <?php if ($mostrar_prazo): ?>
+            <span class="price-deadline">Válido até <?php echo e($fim->format('d/m/Y')); ?></span>
+          <?php endif; ?>
+        <?php endif; ?>
+      </div>
       <p><?php echo e($produto['descricao']); ?></p>
-      <a class="btn" href="<?php echo e(wa_link($produto['loja_whatsapp'], 'Ola! Tenho interesse no produto: ' . $produto['nome'])); ?>" target="_blank">Falar no WhatsApp</a>
+      <a class="btn" href="<?php echo e(wa_link($produto['loja_whatsapp'], 'Olá! Tenho interesse no produto: ' . $produto['nome'])); ?>" target="_blank">Falar no WhatsApp</a>
       <a class="btn-outline" href="loja.php?id=<?php echo e($produto['loja_id']); ?>">Ver loja</a>
     </div>
   </section>
 <?php endif; ?>
 <?php require_once BASE_PATH . '/includes/footer.php'; ?>
+
+
+
+

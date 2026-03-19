@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once 'auth.php';
 require_once '../app/config/database.php';
 require_once '../app/config/admin.php';
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confirm = $_POST['confirm'] ?? '';
 
     if ($new === '' || $new !== $confirm) {
-        $error = 'A nova senha e a confirmacao nao conferem.';
+        $error = 'A nova senha e a confirmação não conferem.';
     } else {
         $stmt = $pdo->prepare('SELECT id, password_hash FROM admin_users WHERE id = ?');
         $stmt->execute([$_SESSION['admin_id']]);
@@ -60,3 +60,4 @@ require_once '../includes/header.php';
   </section>
 </div>
 <?php require_once '../includes/footer.php'; ?>
+

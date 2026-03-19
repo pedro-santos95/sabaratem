@@ -6,10 +6,13 @@ require_once BASE_PATH . '/app/models/Produto.php';
 require_once BASE_PATH . '/app/helpers/functions.php';
 
 $categoria_id = (int)($_GET['categoria_id'] ?? 0);
+$subcategoria_id = (int)($_GET['subcategoria_id'] ?? 0);
 $promo = (int)($_GET['promo'] ?? 0) === 1;
 $q = trim($_GET['q'] ?? '');
-$produtos = Produto::all($categoria_id ?: null, $q ?: null, $promo);
+$produtos = Produto::all($categoria_id ?: null, $q ?: null, $promo, $subcategoria_id ?: null);
 
 header('Content-Type: application/json; charset=utf-8');
 echo json_encode($produtos);
 ?>
+
+

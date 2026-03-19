@@ -1,14 +1,20 @@
-﻿<?php
+<?php
 require_once 'auth.php';
 require_once '../app/config/database.php';
 require_once '../app/models/Loja.php';
 require_once '../app/helpers/functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $logo = $_POST['logo_atual'] ?? '';
+    $upload = upload_image($_FILES['logo'] ?? null, 'lojistas');
+    if ($upload) {
+        $logo = $upload;
+    }
+
     $data = [
         'nome' => $_POST['nome'] ?? '',
         'whatsapp' => $_POST['whatsapp'] ?? '',
-        'logo' => $_POST['logo'] ?? '',
+        'logo' => $logo,
         'endereco' => $_POST['endereco'] ?? '',
         'descricao' => $_POST['descricao'] ?? '',
         'telefone' => $_POST['telefone'] ?? '',
@@ -46,7 +52,7 @@ require_once '../includes/header.php';
   <section class="admin-content">
     <h1>Lojistas</h1>
 
-    <form class="form" method="post">
+    <form class="form" method="post" enctype="multipart/form-data">
       <input type="hidden" name="id" value="<?php echo e($edit['id'] ?? ''); ?>">
       <label>Nome
         <input type="text" name="nome" value="<?php echo e($edit['nome'] ?? ''); ?>" required>
@@ -57,17 +63,21 @@ require_once '../includes/header.php';
       <label>Telefone
         <input type="text" name="telefone" value="<?php echo e($edit['telefone'] ?? ''); ?>">
       </label>
-      <label>Endereco
+      <label>Endereço
         <input type="text" name="endereco" value="<?php echo e($edit['endereco'] ?? ''); ?>">
       </label>
-      <label>Horario
+      <label>Horário
         <input type="text" name="horario" value="<?php echo e($edit['horario'] ?? ''); ?>">
       </label>
-      <label>Descricao
+      <label>Descrição
         <textarea name="descricao" rows="3"><?php echo e($edit['descricao'] ?? ''); ?></textarea>
       </label>
-      <label>Logo (URL)
-        <input type="text" name="logo" value="<?php echo e($edit['logo'] ?? ''); ?>">
+      <label>Logo
+        <input type="file" name="logo" accept=".jpg,.jpeg,.png,.webp,.gif,.svg">
+        <input type="hidden" name="logo_atual" value="<?php echo e($edit['logo'] ?? ''); ?>">
+        <?php if (!empty($edit['logo'])): ?>
+          <small class="muted">Atual: <?php echo e($edit['logo']); ?></small>
+        <?php endif; ?>
       </label>
       <button class="btn" type="submit">Salvar</button>
     </form>
@@ -79,7 +89,7 @@ require_once '../includes/header.php';
             <th>Nome</th>
             <th>WhatsApp</th>
             <th>Telefone</th>
-            <th>Acoes</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -100,3 +110,4 @@ require_once '../includes/header.php';
   </section>
 </div>
 <?php require_once '../includes/footer.php'; ?>
+

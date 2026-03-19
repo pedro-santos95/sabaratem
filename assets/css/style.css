@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   --bg: #f3f5f7;
   --card: #ffffff;
   --text: #12343b;
@@ -52,14 +52,10 @@ body {
 .brand-icon {
   width: 34px;
   height: 34px;
-  display: grid;
-  place-items: center;
   border-radius: 10px;
-  background: var(--accent);
-  color: #0b2b32;
-  font-size: 16px;
+  object-fit: cover;
+  display: block;
 }
-
 .brand-text {
   display: flex;
   flex-direction: column;
@@ -801,5 +797,229 @@ body {
   .loja img {
     max-width: 360px;
   }
+}
+
+
+
+.catalog {
+  margin: 18px 0 24px;
+}
+
+.catalog-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.catalog-sidebar {
+  position: sticky;
+  top: 88px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.sidebar-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #7a8a90;
+  margin: 6px 0 10px;
+}
+
+.sidebar-list,
+.sidebar-sublist {
+  display: grid;
+  gap: 8px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #24525a;
+  background: #f7fafb;
+  font-weight: 600;
+  border: 1px solid #eef2f4;
+}
+
+.sidebar-link.active {
+  background: var(--accent);
+  color: #0c3a41;
+  border-color: var(--accent);
+}
+
+.catalog-content {
+  min-width: 0;
+}
+
+.catalog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.mobile-filters {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .catalog-layout {
+    grid-template-columns: 1fr;
+  }
+  .catalog-sidebar {
+    display: none;
+  }
+  .mobile-filters {
+    display: block;
+  }
+}
+
+@media (max-width: 640px) {
+  .mobile-chip-row {
+    gap: 10px;
+    padding: 4px 0 10px;
+  }
+  .mobile-chip-row .cat-item {
+    flex-direction: row;
+    gap: 8px;
+    padding: 8px 14px;
+    min-height: 38px;
+    min-width: auto;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .mobile-chip-row .cat-icon {
+    width: 28px;
+    height: 28px;
+    background: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  }
+  .mobile-chip-row .cat-icon img {
+    width: 18px;
+    height: 18px;
+  }
+  .mobile-chip-row .cat-item.active {
+    background: #fde2e2;
+    border-color: #f9a8b4;
+    color: #9f1239;
+  }
+  .mobile-chip-row .cat-item.active .cat-icon {
+    color: #9f1239;
+  }
+  .mobile-chip-row .cat-name {
+    white-space: nowrap;
+  }
+  .mobile-subcat-grid {
+    gap: 14px;
+    padding: 4px 0 12px;
+  }
+  .mobile-subcat-grid .cat-item {
+    min-width: 84px;
+    padding: 4px 2px;
+    gap: 6px;
+  }
+  .mobile-subcat-grid .cat-icon {
+    width: 64px;
+    height: 64px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #334155;
+    font-size: 18px;
+  }
+  .mobile-subcat-grid .cat-item.active .cat-icon {
+    background: #fee2e2;
+    border-color: #fecaca;
+    color: #9f1239;
+  }
+  .mobile-subcat-grid .cat-item.active .cat-name {
+    color: #9f1239;
+  }
+  .mobile-subcat-grid .cat-name {
+    text-align: center;
+    max-width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 640px) {
+  .mobile-subcat-grid .cat-item {
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #e7edf1;
+    padding: 10px 6px 8px;
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+  }
+  .mobile-subcat-grid .cat-icon {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    color: #c2410c;
+    box-shadow: 0 6px 12px rgba(251, 191, 36, 0.18);
+  }
+  .mobile-subcat-grid .cat-icon img {
+    width: 34px;
+    height: 34px;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+  .mobile-subcat-grid .cat-name {
+    font-weight: 600;
+    color: #1f2937;
+  }
+  .mobile-subcat-grid .cat-item.active {
+    border-color: #fca5a5;
+  }
+}
+
+@media (max-width: 640px) {
+  .mobile-subcat-grid .cat-icon {
+    overflow: hidden;
+  }
+}
+
+
+.price-block {
+  display: grid;
+  gap: 4px;
+}
+
+.price-original {
+  color: #8a949b;
+  text-decoration: line-through;
+  font-size: 13px;
+}
+
+.price-final {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.price-alt {
+  color: #0f766e;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.price-note {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+
+.price-deadline {
+  color: #dc2626;
+  font-size: 12px;
+  font-weight: 600;
 }
 

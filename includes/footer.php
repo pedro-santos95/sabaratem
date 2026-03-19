@@ -4,7 +4,9 @@
     <p>SabaraTem - Marketplace local. Contato direto via WhatsApp.</p>
   </div>
 </footer>
-<script src="<?php echo e($asset_base); ?>/js/main.js?v=4"></script>
+<script src="<?php echo e($asset_base); ?>/js/main.js?v=6"></script>
 </body>
 </html>
+
+
 

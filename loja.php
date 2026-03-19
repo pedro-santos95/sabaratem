@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 define('BASE_PATH', __DIR__);
 
 require_once BASE_PATH . '/app/config/database.php';
@@ -15,7 +15,7 @@ $page_description = $loja ? 'Produtos da loja ' . $loja['nome'] : 'Loja SabaraTe
 require_once BASE_PATH . '/includes/header.php';
 ?>
 <?php if (!$loja): ?>
-  <p>Loja nao encontrada.</p>
+  <p>Loja não encontrada.</p>
 <?php else: ?>
   <section class="loja">
     <img class="logo" src="<?php echo e(img_src($loja['logo'])); ?>" alt="<?php echo e($loja['nome']); ?>" loading="eager" decoding="async">
@@ -25,15 +25,15 @@ require_once BASE_PATH . '/includes/header.php';
         <p class="muted"><?php echo e($loja['descricao']); ?></p>
       <?php endif; ?>
       <?php if (!empty($loja['endereco'])): ?>
-        <p class="muted"><strong>Endereco:</strong> <?php echo e($loja['endereco']); ?></p>
+        <p class="muted"><strong>Endereço:</strong> <?php echo e($loja['endereco']); ?></p>
       <?php endif; ?>
       <?php if (!empty($loja['telefone'])): ?>
         <p class="muted"><strong>Telefone:</strong> <?php echo e($loja['telefone']); ?></p>
       <?php endif; ?>
       <?php if (!empty($loja['horario'])): ?>
-        <p class="muted"><strong>Horario:</strong> <?php echo e($loja['horario']); ?></p>
+        <p class="muted"><strong>Horário:</strong> <?php echo e($loja['horario']); ?></p>
       <?php endif; ?>
-      <a class="btn" href="<?php echo e(wa_link($loja['whatsapp'], 'Ola! Quero falar com a loja ' . $loja['nome'])); ?>" target="_blank">WhatsApp</a>
+      <a class="btn" href="<?php echo e(wa_link($loja['whatsapp'], 'Olá! Quero falar com a loja ' . $loja['nome'])); ?>" target="_blank">WhatsApp</a>
     </div>
   </section>
 
@@ -51,3 +51,4 @@ require_once BASE_PATH . '/includes/header.php';
   </section>
 <?php endif; ?>
 <?php require_once BASE_PATH . '/includes/footer.php'; ?>
+

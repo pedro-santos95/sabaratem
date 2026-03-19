@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 define('BASE_PATH', __DIR__);
 
 require_once BASE_PATH . '/app/config/database.php';
@@ -24,19 +24,20 @@ require_once BASE_PATH . '/includes/header.php';
             <p class="muted"><?php echo e($l['descricao']); ?></p>
           <?php endif; ?>
           <?php if (!empty($l['endereco'])): ?>
-            <p class="muted"><strong>Endereco:</strong> <?php echo e($l['endereco']); ?></p>
+            <p class="muted"><strong>Endereço:</strong> <?php echo e($l['endereco']); ?></p>
           <?php endif; ?>
           <?php if (!empty($l['telefone'])): ?>
             <p class="muted"><strong>Telefone:</strong> <?php echo e($l['telefone']); ?></p>
           <?php endif; ?>
           <?php if (!empty($l['horario'])): ?>
-            <p class="muted"><strong>Horario:</strong> <?php echo e($l['horario']); ?></p>
+            <p class="muted"><strong>Horário:</strong> <?php echo e($l['horario']); ?></p>
           <?php endif; ?>
           <a class="btn" href="loja.php?id=<?php echo e($l['id']); ?>">Ver loja</a>
-          <a class="btn-outline" href="<?php echo e(wa_link($l['whatsapp'], 'Ola! Quero falar com a loja ' . $l['nome'])); ?>" target="_blank">WhatsApp</a>
+          <a class="btn-outline" href="<?php echo e(wa_link($l['whatsapp'], 'Olá! Quero falar com a loja ' . $l['nome'])); ?>" target="_blank">WhatsApp</a>
         </div>
       </article>
     <?php endforeach; ?>
   </div>
 </section>
 <?php require_once BASE_PATH . '/includes/footer.php'; ?>
+

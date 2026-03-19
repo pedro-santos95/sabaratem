@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 function e($value) {
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 }
@@ -49,6 +49,38 @@ function img_src($path) {
 
 function asset_path($path) {
     return asset_url($path);
+}
+
+function upload_image($file, $subdir, $allowed_ext = null) {
+    if (empty($file) || !is_array($file)) {
+        return null;
+    }
+    if (!isset($file['error']) || $file['error'] === UPLOAD_ERR_NO_FILE) {
+        return null;
+    }
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        return null;
+    }
+    $ext = strtolower(pathinfo($file['name'] ?? '', PATHINFO_EXTENSION));
+    $allowed = $allowed_ext ?: ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg'];
+    if ($ext === '' || !in_array($ext, $allowed, true)) {
+        return null;
+    }
+    $baseDir = realpath(__DIR__ . '/../../assets');
+    if ($baseDir === false) {
+        return null;
+    }
+    $subdir = trim((string)$subdir, '/');
+    $targetDir = $baseDir . '/uploads/' . $subdir;
+    if (!is_dir($targetDir)) {
+        mkdir($targetDir, 0755, true);
+    }
+    $filename = uniqid($subdir . '_', true) . '.' . $ext;
+    $targetPath = $targetDir . '/' . $filename;
+    if (!move_uploaded_file($file['tmp_name'], $targetPath)) {
+        return null;
+    }
+    return 'assets/uploads/' . $subdir . '/' . $filename;
 }
 
 function start_session() {
