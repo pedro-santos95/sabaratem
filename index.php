@@ -66,7 +66,7 @@ $open_carts = (int)($_GET['open_carts'] ?? 0) === 1;
     </div>
     <?php if (!$cart_store_ids): ?>
       <div class="cart-empty">
-        <p class="muted">VocÃª ainda nÃ£o adicionou produtos ao carrinho.</p>
+        <p class="muted">Voc&ecirc; ainda n&atilde;o adicionou produtos ao carrinho.</p>
       </div>
     <?php else: ?>
       <div class="cart-grid">

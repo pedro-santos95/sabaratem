@@ -171,13 +171,13 @@ if ($loja && $cart_rows) {
 ?>
 <section class="section">
   <?php if (!$loja): ?>
-    <p class="muted">Carrinho nÃ£o encontrado.</p>
+    <p class="muted">Carrinho n&atilde;o encontrado.</p>
     <a class="btn" href="<?php echo e($public_base); ?>/index.php">Ver produtos</a>
   <?php elseif (!$cart_rows): ?>
     <div class="section-title">
       <h2>Carrinho - <?php echo e($loja['nome']); ?></h2>
     </div>
-    <p class="muted">Seu carrinho estÃ¡ vazio.</p>
+    <p class="muted">Seu carrinho est&aacute; vazio.</p>
     <a class="btn" href="<?php echo e($public_base); ?>/index.php">Ver produtos</a>
   <?php else: ?>
     <div class="section-title cart-header">

@@ -12,7 +12,7 @@ require_once BASE_PATH . '/includes/header.php';
     <h2>Meus pedidos</h2>
   </div>
   <div id="orders-empty" class="cart-empty">
-    <p class="muted">VocÃª ainda nÃ£o tem pedidos registrados.</p>
+    <p class="muted">Voc&ecirc; ainda n&atilde;o tem pedidos registrados.</p>
     <a class="btn" href="<?php echo e($public_base); ?>/index.php">Ver produtos</a>
   </div>
   <div id="orders-list" class="orders-list"></div>

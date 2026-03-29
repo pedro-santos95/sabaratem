@@ -464,7 +464,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     cartsModal.addEventListener('click', function (e) {
-      if (e.target && e.target.hasAttribute('data-modal-close')) {
+      var trigger = e.target && e.target.closest ? e.target.closest('[data-modal-close]') : null;
+      if (trigger) {
         closeCartsModal();
       }
     });
@@ -525,7 +526,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     checkoutModal.addEventListener('click', function (e) {
-      if (e.target && e.target.hasAttribute('data-modal-close')) {
+      var trigger = e.target && e.target.closest ? e.target.closest('[data-modal-close]') : null;
+      if (trigger) {
         closeCheckoutModal();
       }
     });
