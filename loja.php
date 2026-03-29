@@ -5,6 +5,7 @@ require_once BASE_PATH . '/app/config/database.php';
 require_once BASE_PATH . '/app/models/Loja.php';
 require_once BASE_PATH . '/app/models/Produto.php';
 require_once BASE_PATH . '/app/helpers/functions.php';
+require_once BASE_PATH . '/app/helpers/cart.php';
 
 $id = (int)($_GET['id'] ?? 0);
 $loja = $id ? Loja::find($id) : null;
@@ -45,6 +46,7 @@ require_once BASE_PATH . '/includes/header.php';
           <h2><?php echo e($p['nome']); ?></h2>
           <p class="price"><?php echo e(format_price($p['preco'])); ?></p>
           <a class="btn" href="produto.php?id=<?php echo e($p['id']); ?>">Ver produto</a>
+          <a class="btn-outline" href="<?php echo e($public_base); ?>/carrinho.php?action=add&produto_id=<?php echo e($p['id']); ?>&redirect=<?php echo e(rawurlencode($_SERVER['REQUEST_URI'] ?? '/loja.php?id=' . $id)); ?>">Adicionar ao carrinho</a>
         </div>
       </article>
     <?php endforeach; ?>

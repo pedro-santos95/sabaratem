@@ -4,6 +4,7 @@ define('BASE_PATH', __DIR__);
 require_once BASE_PATH . '/app/config/database.php';
 require_once BASE_PATH . '/app/models/Produto.php';
 require_once BASE_PATH . '/app/helpers/functions.php';
+require_once BASE_PATH . '/app/helpers/cart.php';
 
 $id = (int)($_GET['id'] ?? 0);
 $produto = $id ? Produto::find($id) : null;
@@ -50,6 +51,7 @@ require_once BASE_PATH . '/includes/header.php';
         <?php endif; ?>
       </div>
       <p><?php echo e($produto['descricao']); ?></p>
+      <a class="btn" href="<?php echo e($public_base); ?>/carrinho.php?action=add&produto_id=<?php echo e($produto['id']); ?>&redirect=<?php echo e(rawurlencode($_SERVER['REQUEST_URI'] ?? '/produto.php?id=' . $produto['id'])); ?>">Adicionar ao carrinho</a>
       <a class="btn" href="<?php echo e(wa_link($produto['loja_whatsapp'], 'Olá! Tenho interesse no produto: ' . $produto['nome'])); ?>" target="_blank">Falar no WhatsApp</a>
       <a class="btn-outline" href="loja.php?id=<?php echo e($produto['loja_id']); ?>">Ver loja</a>
     </div>

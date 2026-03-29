@@ -3,9 +3,11 @@ define('BASE_PATH', __DIR__);
 
 require_once BASE_PATH . '/app/config/database.php';
 require_once BASE_PATH . '/app/models/Produto.php';
+require_once BASE_PATH . '/app/models/Loja.php';
 require_once BASE_PATH . '/app/models/Categoria.php';
 require_once BASE_PATH . '/app/models/Subcategoria.php';
 require_once BASE_PATH . '/app/helpers/functions.php';
+require_once BASE_PATH . '/app/helpers/cart.php';
 
 $categoria_id = (int)($_GET['categoria_id'] ?? 0);
 $subcategoria_id = (int)($_GET['subcategoria_id'] ?? 0);
@@ -17,6 +19,21 @@ $search_query = $q;
 $categorias = Categoria::all();
 $subcategorias = $categoria_id ? Subcategoria::byCategoria($categoria_id) : [];
 $produtos = Produto::all($categoria_id ?: null, $q ?: null, $promo, $subcategoria_id ?: null);
+$current_path = $_SERVER['REQUEST_URI'] ?? '/index.php';
+
+$carts = cart_get();
+$cart_store_ids = array_keys($carts);
+$cart_stores = $cart_store_ids ? Loja::byIds($cart_store_ids) : [];
+$cart_item_counts = [];
+foreach ($carts as $store_id => $items) {
+    $total = 0;
+    if (is_array($items)) {
+        foreach ($items as $qty) {
+            $total += (int)$qty;
+        }
+    }
+    $cart_item_counts[(int)$store_id] = $total;
+}
 
 $page_title = 'SabaráTem - Vitrine';
 $page_description = 'Vitrine virtual local com compra via WhatsApp';
@@ -36,6 +53,43 @@ require_once BASE_PATH . '/includes/header.php';
       <img src="<?php echo e($asset_base); ?>/img/banner.png" alt="igreja" loading="eager" fetchpriority="high" decoding="async">
     </div>
   </div>
+</section>
+
+<section class="cart-overview" id="carrinhos">
+  <div class="section-title">
+    <h2>Seus carrinhos por loja</h2>
+  </div>
+  <?php if (!$cart_store_ids): ?>
+    <div class="cart-empty">
+      <p class="muted">VocÃª ainda nÃ£o adicionou produtos ao carrinho.</p>
+    </div>
+  <?php else: ?>
+    <div class="cart-grid">
+      <?php foreach ($cart_store_ids as $store_id): ?>
+        <?php $store = $cart_stores[$store_id] ?? null; ?>
+        <?php if (!$store): ?>
+          <?php continue; ?>
+        <?php endif; ?>
+        <article class="cart-card">
+          <div>
+            <h3><?php echo e($store['nome']); ?></h3>
+            <div class="cart-meta">
+              <span><?php echo e($cart_item_counts[$store_id] ?? 0); ?> itens</span>
+              <?php if (!empty($store['endereco'])): ?>
+                <span><?php echo e($store['endereco']); ?></span>
+              <?php endif; ?>
+            </div>
+          </div>
+          <div class="cart-actions">
+            <a class="btn" href="<?php echo e($public_base); ?>/carrinho.php?loja_id=<?php echo e($store_id); ?>">Ver carrinho</a>
+            <?php if (!empty($store['whatsapp'])): ?>
+              <a class="btn-outline" href="<?php echo e(wa_link($store['whatsapp'], 'OlÃ¡! Quero falar sobre meu carrinho na loja ' . $store['nome'])); ?>" target="_blank">WhatsApp</a>
+            <?php endif; ?>
+          </div>
+        </article>
+      <?php endforeach; ?>
+    </div>
+  <?php endif; ?>
 </section>
 
 <section class="catalog">
@@ -163,6 +217,7 @@ require_once BASE_PATH . '/includes/header.php';
           </div>
           <div class="card-actions">
             <a class="btn" href="produto.php?id=<?php echo e($p['id']); ?>">Ver produto</a>
+            <a class="btn-outline" href="<?php echo e($public_base); ?>/carrinho.php?action=add&produto_id=<?php echo e($p['id']); ?>&redirect=<?php echo e(rawurlencode($current_path)); ?>">Adicionar ao carrinho</a>
             <a class="btn-outline" href="<?php echo e(wa_link($p['loja_whatsapp'], 'Olá! Tenho interesse no produto: ' . $p['nome'])); ?>" target="_blank">WhatsApp</a>
           </div>
         </div>

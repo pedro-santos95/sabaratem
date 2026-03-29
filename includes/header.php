@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../app/helpers/functions.php';
+require_once __DIR__ . '/../app/helpers/cart.php';
 $page_title = $page_title ?? 'SabaráTem';
 $page_description = $page_description ?? 'Vitrine virtual local - SabaráTem';
 $search_query = $search_query ?? '';
@@ -23,6 +24,10 @@ if ($doc_root !== '' && $project_root !== '' && strpos($project_root, $doc_root)
 $asset_base = ($base ? $base : '') . '/assets';
 $public_base = $base;
 $page_og_image = $page_og_image ?? ($asset_base . '/img/og.svg');
+
+$cart_store_count = cart_count_stores();
+$cart_item_count = cart_count_items();
+$cart_label = $cart_store_count > 0 ? 'Carrinhos (' . $cart_store_count . ')' : 'Carrinhos';
 
 $is_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
     || (($_SERVER['SERVER_PORT'] ?? '') === '443');
@@ -83,6 +88,8 @@ if ($is_admin_path) {
 
     <?php if ($show_nav): ?>
       <nav class="nav">
+        <a href="<?php echo e($public_base); ?>/index.php#carrinhos"><?php echo e($cart_label); ?></a>
+        <a href="<?php echo e($public_base); ?>/meus-pedidos.php">Meus pedidos</a>
         <a href="<?php echo e($public_base); ?>/lojistas.php">Lojistas</a>
         <a href="<?php echo e($public_base); ?>/sobre.php">Sobre</a>
         <a class="nav-cta" href="<?php echo e($base); ?>/admin/index.php">Anuncie aqui</a>
@@ -92,6 +99,8 @@ if ($is_admin_path) {
   </div>
   <?php if ($show_nav): ?>
     <div id="mobile-menu" class="mobile-menu">
+      <a href="<?php echo e($public_base); ?>/index.php#carrinhos"><?php echo e($cart_label); ?></a>
+      <a href="<?php echo e($public_base); ?>/meus-pedidos.php">Meus pedidos</a>
       <a href="<?php echo e($public_base); ?>/lojistas.php">Lojistas</a>
       <a href="<?php echo e($public_base); ?>/sobre.php">Sobre</a>
       <a href="<?php echo e($base); ?>/admin/index.php">Anuncie aqui</a>

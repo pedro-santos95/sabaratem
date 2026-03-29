@@ -8,6 +8,33 @@ class Loja {
         return $pdo->query('SELECT * FROM lojas ORDER BY id DESC')->fetchAll();
     }
 
+    public static function byIds($ids) {
+        global $pdo;
+        if (!is_array($ids)) {
+            return [];
+        }
+        $clean = [];
+        foreach ($ids as $id) {
+            $id = (int)$id;
+            if ($id > 0) {
+                $clean[] = $id;
+            }
+        }
+        $clean = array_values(array_unique($clean));
+        if (!$clean) {
+            return [];
+        }
+        $placeholders = implode(',', array_fill(0, count($clean), '?'));
+        $stmt = $pdo->prepare("SELECT * FROM lojas WHERE id IN ({$placeholders})");
+        $stmt->execute($clean);
+        $rows = $stmt->fetchAll();
+        $out = [];
+        foreach ($rows as $row) {
+            $out[(int)$row['id']] = $row;
+        }
+        return $out;
+    }
+
     public static function find($id) {
         global $pdo;
         $stmt = $pdo->prepare('SELECT * FROM lojas WHERE id = ?');
