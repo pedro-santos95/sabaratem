@@ -66,7 +66,13 @@ if ($is_admin_path) {
   <meta name="twitter:title" content="<?php echo e($page_title); ?>">
   <meta name="twitter:description" content="<?php echo e($page_description); ?>">
   <meta name="twitter:image" content="<?php echo e($page_og_image); ?>">
-  <link rel="stylesheet" href="<?php echo e($asset_base); ?>/css/style.css?v=12">
+  <?php
+  $style_version = @filemtime(__DIR__ . '/../assets/css/style.css');
+  if ($style_version === false) {
+      $style_version = time();
+  }
+  ?>
+  <link rel="stylesheet" href="<?php echo e($asset_base); ?>/css/style.css?v=<?php echo e($style_version); ?>">
 </head>
 <body data-public-base="<?php echo e($public_base); ?>" data-asset-base="<?php echo e($asset_base); ?>">
 <header class="site-header">
