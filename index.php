@@ -38,6 +38,8 @@ foreach ($carts as $store_id => $items) {
 $page_title = 'SabaráTem - Vitrine';
 $page_description = 'Vitrine virtual local com compra via WhatsApp';
 require_once BASE_PATH . '/includes/header.php';
+
+$open_carts = (int)($_GET['open_carts'] ?? 0) === 1;
 ?>
 <section class="hero">
   <div class="hero-inner">
@@ -55,42 +57,46 @@ require_once BASE_PATH . '/includes/header.php';
   </div>
 </section>
 
-<section class="cart-overview" id="carrinhos">
-  <div class="section-title">
-    <h2>Seus carrinhos por loja</h2>
-  </div>
-  <?php if (!$cart_store_ids): ?>
-    <div class="cart-empty">
-      <p class="muted">VocÃª ainda nÃ£o adicionou produtos ao carrinho.</p>
+<div class="modal carts-modal<?php echo $open_carts ? ' active' : ''; ?>" id="carts-modal" aria-hidden="<?php echo $open_carts ? 'false' : 'true'; ?>"<?php echo $open_carts ? ' data-auto-open="1"' : ''; ?>>
+  <div class="modal-backdrop" data-modal-close></div>
+  <div class="modal-card carts-modal-card" role="dialog" aria-modal="true" aria-labelledby="carts-title">
+    <button class="modal-close" type="button" data-modal-close aria-label="Fechar">×</button>
+    <div class="section-title">
+      <h2 id="carts-title">Seus carrinhos por loja</h2>
     </div>
-  <?php else: ?>
-    <div class="cart-grid">
-      <?php foreach ($cart_store_ids as $store_id): ?>
-        <?php $store = $cart_stores[$store_id] ?? null; ?>
-        <?php if (!$store): ?>
-          <?php continue; ?>
-        <?php endif; ?>
-        <article class="cart-card">
-          <div>
-            <h3><?php echo e($store['nome']); ?></h3>
-            <div class="cart-meta">
-              <span><?php echo e($cart_item_counts[$store_id] ?? 0); ?> itens</span>
-              <?php if (!empty($store['endereco'])): ?>
-                <span><?php echo e($store['endereco']); ?></span>
+    <?php if (!$cart_store_ids): ?>
+      <div class="cart-empty">
+        <p class="muted">VocÃª ainda nÃ£o adicionou produtos ao carrinho.</p>
+      </div>
+    <?php else: ?>
+      <div class="cart-grid">
+        <?php foreach ($cart_store_ids as $store_id): ?>
+          <?php $store = $cart_stores[$store_id] ?? null; ?>
+          <?php if (!$store): ?>
+            <?php continue; ?>
+          <?php endif; ?>
+          <article class="cart-card">
+            <div>
+              <h3><?php echo e($store['nome']); ?></h3>
+              <div class="cart-meta">
+                <span><?php echo e($cart_item_counts[$store_id] ?? 0); ?> itens</span>
+                <?php if (!empty($store['endereco'])): ?>
+                  <span><?php echo e($store['endereco']); ?></span>
+                <?php endif; ?>
+              </div>
+            </div>
+            <div class="cart-actions">
+              <a class="btn" href="<?php echo e($public_base); ?>/carrinho.php?loja_id=<?php echo e($store_id); ?>">Ver carrinho</a>
+              <?php if (!empty($store['whatsapp'])): ?>
+                <a class="btn-outline" href="<?php echo e(wa_link($store['whatsapp'], 'OlÃ¡! Quero falar sobre meu carrinho na loja ' . $store['nome'])); ?>" target="_blank">WhatsApp</a>
               <?php endif; ?>
             </div>
-          </div>
-          <div class="cart-actions">
-            <a class="btn" href="<?php echo e($public_base); ?>/carrinho.php?loja_id=<?php echo e($store_id); ?>">Ver carrinho</a>
-            <?php if (!empty($store['whatsapp'])): ?>
-              <a class="btn-outline" href="<?php echo e(wa_link($store['whatsapp'], 'OlÃ¡! Quero falar sobre meu carrinho na loja ' . $store['nome'])); ?>" target="_blank">WhatsApp</a>
-            <?php endif; ?>
-          </div>
-        </article>
-      <?php endforeach; ?>
-    </div>
-  <?php endif; ?>
-</section>
+          </article>
+        <?php endforeach; ?>
+      </div>
+    <?php endif; ?>
+  </div>
+</div>
 
 <section class="catalog">
   <div class="catalog-layout">

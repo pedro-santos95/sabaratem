@@ -88,7 +88,7 @@ if ($is_admin_path) {
 
     <?php if ($show_nav): ?>
       <nav class="nav">
-        <a href="<?php echo e($public_base); ?>/index.php#carrinhos"><?php echo e($cart_label); ?></a>
+        <a class="js-open-carts" href="<?php echo e($public_base); ?>/index.php?open_carts=1"><?php echo e($cart_label); ?></a>
         <a href="<?php echo e($public_base); ?>/meus-pedidos.php">Meus pedidos</a>
         <a href="<?php echo e($public_base); ?>/lojistas.php">Lojistas</a>
         <a href="<?php echo e($public_base); ?>/sobre.php">Sobre</a>
@@ -99,7 +99,7 @@ if ($is_admin_path) {
   </div>
   <?php if ($show_nav): ?>
     <div id="mobile-menu" class="mobile-menu">
-      <a href="<?php echo e($public_base); ?>/index.php#carrinhos"><?php echo e($cart_label); ?></a>
+      <a class="js-open-carts" href="<?php echo e($public_base); ?>/index.php?open_carts=1"><?php echo e($cart_label); ?></a>
       <a href="<?php echo e($public_base); ?>/meus-pedidos.php">Meus pedidos</a>
       <a href="<?php echo e($public_base); ?>/lojistas.php">Lojistas</a>
       <a href="<?php echo e($public_base); ?>/sobre.php">Sobre</a>

@@ -434,6 +434,52 @@ document.addEventListener('DOMContentLoaded', function () {
     cartForm.clearCartAfterOrder = clearCartAfterOrder;
   }
 
+  var cartsModal = document.getElementById('carts-modal');
+  var cartLinks = document.querySelectorAll('.js-open-carts');
+
+  function openCartsModal() {
+    if (!cartsModal) {
+      return;
+    }
+    cartsModal.classList.add('active');
+    cartsModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+  }
+
+  function closeCartsModal() {
+    if (!cartsModal) {
+      return;
+    }
+    cartsModal.classList.remove('active');
+    cartsModal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+  }
+
+  if (cartsModal) {
+    cartLinks.forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        openCartsModal();
+      });
+    });
+
+    cartsModal.addEventListener('click', function (e) {
+      if (e.target && e.target.hasAttribute('data-modal-close')) {
+        closeCartsModal();
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && cartsModal.classList.contains('active')) {
+        closeCartsModal();
+      }
+    });
+
+    if (cartsModal.dataset.autoOpen === '1') {
+      openCartsModal();
+    }
+  }
+
   var checkoutModal = document.getElementById('checkout-modal');
   var checkoutForm = checkoutModal ? checkoutModal.querySelector('#checkout-form') : null;
   var checkoutButtons = document.querySelectorAll('.js-checkout-open');
