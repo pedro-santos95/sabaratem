@@ -104,7 +104,7 @@ require_once '../includes/header.php';
     </form>
 
     <div class="table-wrap">
-      <table class="table">
+      <table class="table admin-table">
         <thead>
           <tr>
             <th>Nome</th>
@@ -115,9 +115,9 @@ require_once '../includes/header.php';
         <tbody>
           <?php foreach ($categorias as $c): ?>
             <tr>
-              <td><?php echo e($c['nome']); ?></td>
-              <td><?php echo e($c['svg']); ?></td>
-              <td class="table-actions">
+              <td data-label="Nome"><?php echo e($c['nome']); ?></td>
+              <td data-label="SVG"><?php echo e($c['svg']); ?></td>
+              <td data-label="A&ccedil;&otilde;es" class="table-actions">
                 <a class="action-link edit" href="categorias.php?edit=<?php echo e($c['id']); ?>">Editar</a>
                 <a class="action-link delete" href="categorias.php?delete=<?php echo e($c['id']); ?>" onclick="return confirm('Excluir categoria?');">Excluir</a>
               </td>
@@ -154,7 +154,7 @@ require_once '../includes/header.php';
     </form>
 
     <div class="table-wrap">
-      <table class="table">
+      <table class="table admin-table">
         <thead>
           <tr>
             <th>Categoria</th>
@@ -166,10 +166,10 @@ require_once '../includes/header.php';
         <tbody>
           <?php foreach ($subcategorias as $s): ?>
             <tr>
-              <td><?php echo e($s['categoria_nome']); ?></td>
-              <td><?php echo e($s['nome']); ?></td>
-              <td><?php echo e($s['imagem']); ?></td>
-              <td class="table-actions">
+              <td data-label="Categoria"><?php echo e($s['categoria_nome']); ?></td>
+              <td data-label="Subcategoria"><?php echo e($s['nome']); ?></td>
+              <td data-label="Imagem"><?php echo e($s['imagem']); ?></td>
+              <td data-label="A&ccedil;&otilde;es" class="table-actions">
                 <a class="action-link edit" href="categorias.php?edit_subcategoria=<?php echo e($s['id']); ?>">Editar</a>
                 <a class="action-link delete" href="categorias.php?delete_subcategoria=<?php echo e($s['id']); ?>" onclick="return confirm('Excluir subcategoria?');">Excluir</a>
               </td>

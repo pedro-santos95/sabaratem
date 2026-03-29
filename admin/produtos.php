@@ -213,7 +213,7 @@ require_once '../includes/header.php';
     </form>
 
     <div class="table-wrap">
-      <table class="table">
+      <table class="table admin-table">
         <thead>
           <tr>
             <th>Produto</th>
@@ -227,11 +227,11 @@ require_once '../includes/header.php';
         <tbody>
           <?php foreach ($produtos as $p): ?>
             <tr>
-              <td><?php echo e($p['nome']); ?></td>
-              <td><?php echo e($p['subcategoria_nome'] ?? ''); ?></td>
-              <td><?php echo e($p['loja_nome']); ?></td>
-              <td><?php echo e(format_price($p['preco'])); ?></td>
-              <td>
+              <td data-label="Produto"><?php echo e($p['nome']); ?></td>
+              <td data-label="Subcategoria"><?php echo e($p['subcategoria_nome'] ?? ''); ?></td>
+              <td data-label="Loja"><?php echo e($p['loja_nome']); ?></td>
+              <td data-label="Pre&ccedil;o"><?php echo e(format_price($p['preco'])); ?></td>
+              <td data-label="Promo&ccedil;&atilde;o">
                 <?php if (!empty($p['promo_ativa'])): ?>
                   <?php if (($p['tipo_desconto'] ?? '') === 'percentual'): ?>
                     <?php $percent = rtrim(rtrim(number_format((float)$p['valor_desconto'], 2, ',', '.'), '0'), ','); ?>
@@ -243,7 +243,7 @@ require_once '../includes/header.php';
                   Não
                 <?php endif; ?>
               </td>
-              <td class="table-actions">
+              <td data-label="A&ccedil;&otilde;es" class="table-actions">
                 <a class="action-link edit" href="produtos.php?edit=<?php echo e($p['id']); ?>">Editar</a>
                 <a class="action-link delete" href="produtos.php?delete=<?php echo e($p['id']); ?>" onclick="return confirm('Excluir produto?');">Excluir</a>
               </td>

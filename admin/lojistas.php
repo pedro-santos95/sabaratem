@@ -83,7 +83,7 @@ require_once '../includes/header.php';
     </form>
 
     <div class="table-wrap">
-      <table class="table">
+      <table class="table admin-table">
         <thead>
           <tr>
             <th>Nome</th>
@@ -95,10 +95,10 @@ require_once '../includes/header.php';
         <tbody>
           <?php foreach ($lojistas as $l): ?>
             <tr>
-              <td><?php echo e($l['nome']); ?></td>
-              <td><?php echo e($l['whatsapp']); ?></td>
-              <td><?php echo e($l['telefone']); ?></td>
-              <td class="table-actions">
+              <td data-label="Nome"><?php echo e($l['nome']); ?></td>
+              <td data-label="WhatsApp"><?php echo e($l['whatsapp']); ?></td>
+              <td data-label="Telefone"><?php echo e($l['telefone']); ?></td>
+              <td data-label="A&ccedil;&otilde;es" class="table-actions">
                 <a class="action-link edit" href="lojistas.php?edit=<?php echo e($l['id']); ?>">Editar</a>
                 <a class="action-link delete" href="lojistas.php?delete=<?php echo e($l['id']); ?>" onclick="return confirm('Excluir lojista?');">Excluir</a>
               </td>
