@@ -437,6 +437,21 @@ document.addEventListener('DOMContentLoaded', function () {
   var cartsModal = document.getElementById('carts-modal');
   var cartLinks = document.querySelectorAll('.js-open-carts');
 
+  function bindModalClosers(modal, closeFn) {
+    if (!modal) {
+      return;
+    }
+    var closers = modal.querySelectorAll('[data-modal-close]');
+    closers.forEach(function (el) {
+      ['click', 'touchend'].forEach(function (evt) {
+        el.addEventListener(evt, function (e) {
+          e.preventDefault();
+          closeFn();
+        });
+      });
+    });
+  }
+
   function openCartsModal() {
     if (!cartsModal) {
       return;
@@ -456,18 +471,13 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   if (cartsModal) {
+    bindModalClosers(cartsModal, closeCartsModal);
+
     cartLinks.forEach(function (link) {
       link.addEventListener('click', function (e) {
         e.preventDefault();
         openCartsModal();
       });
-    });
-
-    cartsModal.addEventListener('click', function (e) {
-      var trigger = e.target && e.target.closest ? e.target.closest('[data-modal-close]') : null;
-      if (trigger) {
-        closeCartsModal();
-      }
     });
 
     document.addEventListener('keydown', function (e) {
@@ -519,17 +529,12 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   if (checkoutButtons.length && checkoutModal && checkoutForm) {
+    bindModalClosers(checkoutModal, closeCheckoutModal);
+
     checkoutButtons.forEach(function (button) {
       button.addEventListener('click', function () {
         openCheckoutModal(button);
       });
-    });
-
-    checkoutModal.addEventListener('click', function (e) {
-      var trigger = e.target && e.target.closest ? e.target.closest('[data-modal-close]') : null;
-      if (trigger) {
-        closeCheckoutModal();
-      }
     });
 
     document.addEventListener('keydown', function (e) {
