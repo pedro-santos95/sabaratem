@@ -1,7 +1,7 @@
 ﻿</main>
 <footer class="site-footer">
   <div class="container">
-    <p>SabaraTem - Marketplace local. Contato direto via WhatsApp.</p>
+    <p>SabaraTem - PartnerPlace local. Contato direto via WhatsApp.</p>
   </div>
 </footer>
 <?php
