@@ -281,6 +281,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var cartCheckoutButtons = document.querySelectorAll('.js-checkout-open');
     var cartSaveTimer = null;
     var lastSnapshot = { items: [], totalItems: 0, totalValue: 0 };
+    var saleTracked = false;
 
     function buildCartMessage(rows, totalValue) {
       var storeName = cartForm.getAttribute('data-store-name') || '';
@@ -429,9 +430,26 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
 
+    function trackWhatsappSale() {
+      if (saleTracked) {
+        return;
+      }
+      if (!lastSnapshot.totalItems || lastSnapshot.totalItems < 1) {
+        return;
+      }
+      saleTracked = true;
+      var payload = new URLSearchParams();
+      payload.set('count', String(lastSnapshot.totalItems));
+      fetch(publicBase + '/track_order.php', {
+        method: 'POST',
+        body: payload
+      }).catch(function () {});
+    }
+
     cartForm.dataset.storeOrder = 'ready';
     cartForm.storeOrder = storeOrder;
     cartForm.clearCartAfterOrder = clearCartAfterOrder;
+    cartForm.trackWhatsappSale = trackWhatsappSale;
   }
 
   var cartsModal = document.getElementById('carts-modal');
@@ -564,6 +582,7 @@ document.addEventListener('DOMContentLoaded', function () {
       };
       if (cartForm && cartForm.storeOrder) {
         cartForm.storeOrder(customer);
+        cartForm.trackWhatsappSale();
         cartForm.clearCartAfterOrder();
       }
 

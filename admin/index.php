@@ -3,6 +3,7 @@ require_once 'auth.php';
 require_once '../app/config/database.php';
 require_once '../app/models/Loja.php';
 require_once '../app/models/Produto.php';
+require_once '../app/models/Metricas.php';
 
 $page_title = 'Admin - Dashboard';
 $page_description = 'Painel administrativo SabaraTem';
@@ -20,6 +21,10 @@ require_once '../includes/header.php';
       <div class="metric-card">
         <span>Total de produtos</span>
         <strong><?php echo Produto::count(); ?></strong>
+      </div>
+      <div class="metric-card">
+        <span>Produtos vendidos (WhatsApp)</span>
+        <strong><?php echo Metricas::getWhatsappSales(); ?></strong>
       </div>
     </div>
   </section>

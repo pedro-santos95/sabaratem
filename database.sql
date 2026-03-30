@@ -51,5 +51,13 @@ CREATE TABLE admin_users (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE metricas (
+  id INT PRIMARY KEY,
+  vendas_whatsapp INT NOT NULL DEFAULT 0
+);
+
+INSERT INTO metricas (id, vendas_whatsapp) VALUES
+  (1, 0);
+
 INSERT INTO admin_users (username, password_hash) VALUES
   ('ComercioUniao', '$2y$10$qHOq/PRVrKn5NTiiVwb8pubHRvxmdJnn2un2B82rDoOX/oXWW3Vxi');
