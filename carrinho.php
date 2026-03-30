@@ -258,39 +258,4 @@ if ($loja && $cart_rows) {
     </form>
   <?php endif; ?>
 </section>
-<?php if ($whatsapp_link): ?>
-  <div class="modal" id="checkout-modal" aria-hidden="true">
-    <div class="modal-backdrop" data-modal-close></div>
-    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
-      <button class="modal-close" type="button" data-modal-close aria-label="Fechar">×</button>
-      <h3 id="checkout-title">Dados para finalizar</h3>
-      <form id="checkout-form">
-        <label>
-          Endereço
-          <textarea name="address" rows="3" required></textarea>
-        </label>
-        <label>
-          Contato
-          <input type="text" name="contact" required>
-        </label>
-        <label>
-          Forma de pagamento
-          <select name="payment" required>
-            <option value="">Selecione</option>
-            <option value="PIX">PIX</option>
-            <option value="Dinheiro">Dinheiro</option>
-            <option value="Cartão de crédito">Cartão de crédito</option>
-            <option value="Cartão de débito">Cartão de débito</option>
-            <option value="Outro">Outro</option>
-          </select>
-        </label>
-        <div class="modal-actions">
-          <button class="btn-outline" type="button" data-modal-close>Cancelar</button>
-          <button class="btn" type="submit">Enviar no WhatsApp</button>
-        </div>
-      </form>
-      <p class="muted modal-hint">Seus dados ficam salvos neste navegador para facilitar as próximas compras.</p>
-    </div>
-  </div>
-<?php endif; ?>
 <?php require_once BASE_PATH . '/includes/footer.php'; ?>

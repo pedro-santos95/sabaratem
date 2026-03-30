@@ -506,12 +506,31 @@ document.addEventListener('DOMContentLoaded', function () {
   var checkoutForm = checkoutModal ? checkoutModal.querySelector('#checkout-form') : null;
   var checkoutButtons = document.querySelectorAll('.js-checkout-open');
 
-  function openCheckoutModal(button) {
+  function normalizePhone(phone) {
+    var digits = (phone || '').replace(/\D+/g, '');
+    if (!digits) {
+      return '';
+    }
+    if (digits.length <= 11) {
+      digits = '55' + digits;
+    }
+    return digits;
+  }
+
+  function openCheckoutModalWith(phone, message) {
     if (!checkoutModal || !checkoutForm) {
       return;
     }
-    checkoutModal.dataset.waPhone = button.getAttribute('data-wa-phone') || '';
-    checkoutModal.dataset.waMessage = button.getAttribute('data-wa-message') || '';
+    var normalizedPhone = normalizePhone(phone);
+    if (!normalizedPhone) {
+      return;
+    }
+    var baseMessage = (message || '').trim();
+    if (!baseMessage) {
+      baseMessage = 'Olá! Quero falar pelo WhatsApp.';
+    }
+    checkoutModal.dataset.waPhone = normalizedPhone;
+    checkoutModal.dataset.waMessage = baseMessage;
 
     var addressInput = checkoutForm.querySelector('[name="address"]');
     var contactInput = checkoutForm.querySelector('[name="contact"]');
@@ -539,14 +558,47 @@ document.addEventListener('DOMContentLoaded', function () {
     checkoutModal.setAttribute('aria-hidden', 'true');
   }
 
-  if (checkoutButtons.length && checkoutModal && checkoutForm) {
+  function parseWhatsAppLink(href) {
+    if (!href) {
+      return null;
+    }
+    var url;
+    try {
+      url = new URL(href, window.location.origin);
+    } catch (err) {
+      return null;
+    }
+    var host = (url.hostname || '').toLowerCase();
+    var phone = '';
+    var text = '';
+
+    if (host.indexOf('wa.me') !== -1) {
+      phone = url.pathname.replace(/^\//, '');
+      text = url.searchParams.get('text') || '';
+    } else if (host.indexOf('whatsapp.com') !== -1) {
+      phone = url.searchParams.get('phone') || '';
+      text = url.searchParams.get('text') || '';
+    } else {
+      return null;
+    }
+
+    phone = normalizePhone(phone);
+    if (!phone) {
+      return null;
+    }
+    return { phone: phone, text: text };
+  }
+
+  if (checkoutModal && checkoutForm) {
     bindModalClosers(checkoutModal, closeCheckoutModal);
 
-    checkoutButtons.forEach(function (button) {
-      button.addEventListener('click', function () {
-        openCheckoutModal(button);
+    if (checkoutButtons.length) {
+      checkoutButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          openCheckoutModalWith(button.getAttribute('data-wa-phone') || '', button.getAttribute('data-wa-message') || '');
+        });
       });
-    });
+    }
 
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && checkoutModal.classList.contains('active')) {
@@ -603,6 +655,27 @@ document.addEventListener('DOMContentLoaded', function () {
       if (cartForm) {
         window.location.href = publicBase + '/meus-pedidos.php';
       }
+    });
+  }
+
+  if (checkoutModal) {
+    document.addEventListener('click', function (e) {
+      var link = e.target && e.target.closest ? e.target.closest('a') : null;
+      if (!link) {
+        return;
+      }
+      if (link.classList.contains('js-checkout-open')) {
+        return;
+      }
+      if (link.hasAttribute('data-wa-skip')) {
+        return;
+      }
+      var parsed = parseWhatsAppLink(link.getAttribute('href') || '');
+      if (!parsed) {
+        return;
+      }
+      e.preventDefault();
+      openCheckoutModalWith(parsed.phone, parsed.text);
     });
   }
 
