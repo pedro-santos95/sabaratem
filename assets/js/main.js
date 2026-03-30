@@ -45,26 +45,15 @@ document.addEventListener('DOMContentLoaded', function () {
       var items = payload && payload.items ? payload.items : [];
       if (!items.length) {
         results.innerHTML = '<div class="search-title">Nenhum resultado para "' + query.replace(/"/g, '') + '"</div>' +
-          '<div class="search-empty">Tente buscar por nome do produto, loja ou categoria.</div>';
+          '<div class="search-empty">Clique na lupa para pesquisar pelo texto digitado.</div>';
         results.classList.add('active');
         return;
       }
 
       var html = '<div class="search-title">Resultados para "' + query.replace(/"/g, '') + '"</div>';
       items.forEach(function (item) {
-        var img = normalizeAsset(item.imagem);
-        var meta = [];
-        if (item.loja_nome) {
-          meta.push('Loja: ' + item.loja_nome);
-        }
-        if (item.categoria_nome) {
-          meta.push('Categoria: ' + item.categoria_nome);
-        }
         html += '<a class="search-item" href="' + publicBase + '/produto.php?id=' + item.id + '">' +
-          '<img src="' + img + '" alt="' + item.nome.replace(/"/g, '') + '" loading="lazy" decoding="async">' +
-          '<div><strong>' + item.nome + '</strong>' +
-          (meta.length ? '<small>' + meta.join(' · ') + '</small>' : '') +
-          '</div>' +
+          item.nome +
         '</a>';
       });
       results.innerHTML = html;
@@ -212,6 +201,10 @@ document.addEventListener('DOMContentLoaded', function () {
         params.push('q=' + encodeURIComponent(q));
       }
       fetchProducts(params.join('&'));
+      if (results) {
+        results.innerHTML = '';
+        results.classList.remove('active');
+      }
     });
   }
 
@@ -680,6 +673,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   renderOrdersPage();
 });
+
 
 
 

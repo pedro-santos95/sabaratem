@@ -15,56 +15,38 @@ if ($q === '') {
     exit;
 }
 
-$terms = preg_split('/\s+/', mb_strtolower($q, 'UTF-8'));
-$terms = array_values(array_filter($terms, function ($term) {
-    return mb_strlen($term, 'UTF-8') >= 2;
-}));
-
-$where = [];
-$params = [];
-
-if (!$terms) {
-    $terms = [mb_strtolower($q, 'UTF-8')];
+$term = mb_strtolower($q, 'UTF-8');
+$like = '%' . $term . '%';
+$fuzzy = '';
+if (mb_strlen($term, 'UTF-8') >= 4) {
+    $chars = preg_split('//u', $term, -1, PREG_SPLIT_NO_EMPTY);
+    if ($chars) {
+        $fuzzy = '%' . implode('%', $chars) . '%';
+    }
 }
 
-foreach ($terms as $term) {
-    $like = '%' . $term . '%';
-    $where[] = '(LOWER(p.nome) LIKE ? OR LOWER(COALESCE(p.descricao, "")) LIKE ? OR LOWER(COALESCE(l.nome, "")) LIKE ? OR LOWER(COALESCE(c.nome, "")) LIKE ?)';
-    $params[] = $like;
-    $params[] = $like;
-    $params[] = $like;
-    $params[] = $like;
+$where = 'LOWER(p.nome) LIKE ?
+           OR LOWER(COALESCE(c.nome, "")) LIKE ?
+           OR LOWER(COALESCE(sc.nome, "")) LIKE ?';
+$params = [$like, $like, $like];
+
+if ($fuzzy !== '') {
+    $where .= ' OR LOWER(p.nome) LIKE ?
+               OR LOWER(COALESCE(c.nome, "")) LIKE ?
+               OR LOWER(COALESCE(sc.nome, "")) LIKE ?';
+    $params = array_merge($params, [$fuzzy, $fuzzy, $fuzzy]);
 }
 
-$full = mb_strtolower($q, 'UTF-8');
-$scoreStarts = $full . '%';
-$scoreLike = '%' . $full . '%';
-
-$sql = 'SELECT
-            p.id,
-            p.nome,
-            p.imagem,
-            l.nome AS loja_nome,
-            c.nome AS categoria_nome,
-            (
-                CASE WHEN LOWER(p.nome) LIKE ? THEN 40 ELSE 0 END +
-                CASE WHEN LOWER(p.nome) LIKE ? THEN 20 ELSE 0 END +
-                CASE WHEN LOWER(COALESCE(l.nome, "")) LIKE ? THEN 10 ELSE 0 END +
-                CASE WHEN LOWER(COALESCE(c.nome, "")) LIKE ? THEN 10 ELSE 0 END +
-                CASE WHEN LOWER(COALESCE(p.descricao, "")) LIKE ? THEN 5 ELSE 0 END
-            ) AS score
+$sql = 'SELECT p.id, p.nome
         FROM produtos p
-        LEFT JOIN lojas l ON l.id = p.loja_id
         LEFT JOIN categorias c ON c.id = p.categoria_id
-        WHERE ' . implode(' AND ', $where) . '
-        ORDER BY score DESC, p.nome ASC
-        LIMIT 8';
+        LEFT JOIN subcategorias sc ON sc.id = p.subcategoria_id
+        WHERE ' . $where . '
+        ORDER BY p.nome ASC
+        LIMIT 12';
 
 $stmt = $pdo->prepare($sql);
-$stmt->execute(array_merge(
-    [$scoreStarts, $scoreLike, $scoreLike, $scoreLike, $scoreLike],
-    $params
-));
+$stmt->execute($params);
 $rows = $stmt->fetchAll();
 
 echo json_encode([

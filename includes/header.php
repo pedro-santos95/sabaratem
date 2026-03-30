@@ -86,8 +86,9 @@ if ($is_admin_path) {
     </a>
 
     <div class="search">
-      <form action="<?php echo e($public_base); ?>/index.php" method="get">
-        <input id="search-input" type="text" name="q" placeholder="O que você está procurando em Sabará?" value="<?php echo e($search_query); ?>">
+      <form class="search-form" action="<?php echo e($public_base); ?>/index.php" method="get">
+        <input id="search-input" type="text" name="q" placeholder="O que voc&ecirc; est&aacute; procurando em Sabara?" value="<?php echo e($search_query); ?>">
+        <button class="search-btn" type="submit" aria-label="Pesquisar"></button>
       </form>
       <div id="search-results" class="search-results"></div>
     </div>
