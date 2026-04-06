@@ -383,6 +383,15 @@ body.modal-open {
   object-fit: cover;
 }
 
+.produto img {
+  height: auto;
+  max-height: 420px;
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
 .card-body {
   padding: 12px;
   display: flex;
