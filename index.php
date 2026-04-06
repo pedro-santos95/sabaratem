@@ -110,7 +110,6 @@ $open_carts = (int)($_GET['open_carts'] ?? 0) === 1;
       </nav>
 
       <?php if ($categoria_id && $subcategorias): ?>
-        <div class="sidebar-title">Subcategorias</div>
         <nav class="sidebar-sublist" data-filter="subcategories" data-categoria="<?php echo e($categoria_id); ?>">
           <a href="<?php echo e($public_base); ?>/index.php?categoria_id=<?php echo e($categoria_id); ?>" data-subcategoria="" data-categoria="<?php echo e($categoria_id); ?>" data-force-nav="1" class="sidebar-link <?php echo empty($subcategoria_id) ? 'active' : ''; ?>">Todas</a>
           <?php foreach ($subcategorias as $s): ?>
@@ -145,9 +144,6 @@ $open_carts = (int)($_GET['open_carts'] ?? 0) === 1;
         </div>
 
         <?php if ($categoria_id && $subcategorias): ?>
-          <div class="section-title">
-            <h2>Subcategorias</h2>
-          </div>
           <div class="cat-grid subcat-grid mobile-subcat-grid" data-filter="subcategories" data-categoria="<?php echo e($categoria_id); ?>">
             <a href="<?php echo e($public_base); ?>/index.php?categoria_id=<?php echo e($categoria_id); ?>" data-subcategoria="" data-categoria="<?php echo e($categoria_id); ?>" data-force-nav="1" class="cat-item <?php echo empty($subcategoria_id) ? 'active' : ''; ?>">
               <span class="cat-icon">#</span>
