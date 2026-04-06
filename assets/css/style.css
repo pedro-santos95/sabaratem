@@ -931,6 +931,19 @@ body.modal-open {
     white-space: nowrap;
   }
 
+  .produto-actions .btn-text {
+    font-size: 11px;
+  }
+
+  .produto-actions .btn-cart .btn-text {
+    font-size: 0;
+  }
+
+  .produto-actions .btn-cart .btn-text::after {
+    content: "Carrinho";
+    font-size: 11px;
+  }
+
   .produto-actions .btn-icon {
     width: 14px;
     height: 14px;
