@@ -124,6 +124,46 @@ class Produto {
         return self::normalizeRows($stmt->fetchAll());
     }
 
+    public static function byLojaAdmin($loja_id) {
+        global $pdo;
+        $sql = 'SELECT p.*, c.nome AS categoria_nome, sc.nome AS subcategoria_nome
+                FROM produtos p
+                LEFT JOIN categorias c ON c.id = p.categoria_id
+                LEFT JOIN subcategorias sc ON sc.id = p.subcategoria_id
+                WHERE p.loja_id = ?
+                ORDER BY p.id DESC';
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$loja_id]);
+        return self::normalizeRows($stmt->fetchAll());
+    }
+
+    public static function countByLojas($loja_ids) {
+        global $pdo;
+        if (!is_array($loja_ids) || !$loja_ids) {
+            return [];
+        }
+        $clean = [];
+        foreach ($loja_ids as $id) {
+            $id = (int)$id;
+            if ($id > 0) {
+                $clean[] = $id;
+            }
+        }
+        $clean = array_values(array_unique($clean));
+        if (!$clean) {
+            return [];
+        }
+        $placeholders = implode(',', array_fill(0, count($clean), '?'));
+        $stmt = $pdo->prepare("SELECT loja_id, COUNT(*) AS total FROM produtos WHERE loja_id IN ({$placeholders}) GROUP BY loja_id");
+        $stmt->execute($clean);
+        $rows = $stmt->fetchAll();
+        $out = [];
+        foreach ($rows as $row) {
+            $out[(int)$row['loja_id']] = (int)$row['total'];
+        }
+        return $out;
+    }
+
     public static function create($data) {
         global $pdo;
         $stmt = $pdo->prepare('INSERT INTO produtos (loja_id, categoria_id, subcategoria_id, nome, preco, imagem, descricao, em_promocao, porcentagem_promocao, tipo_desconto, valor_desconto, data_fim_promocao, preco_alternativo, texto_alternativo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');

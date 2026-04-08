@@ -595,6 +595,113 @@ body.modal-open {
   margin-bottom: 14px;
 }
 
+.admin-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.admin-toolbar h1,
+.admin-toolbar h2 {
+  margin-bottom: 4px;
+}
+
+.admin-toolbar-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: #f7fafb;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px;
+  margin-bottom: 14px;
+}
+
+.admin-tabs a {
+  text-decoration: none;
+  color: #24525a;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+}
+
+.admin-tabs a.active,
+.admin-tabs a:hover {
+  background: var(--accent);
+  color: #0c3a41;
+}
+
+.admin-section {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 16px;
+}
+
+.store-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.store-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.store-head {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.store-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  background: #f3f4f6;
+}
+
+.store-meta {
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.store-card h2 {
+  font-size: 16px;
+  margin-bottom: 2px;
+}
+
+.store-card-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.store-card-actions .btn,
+.store-card-actions .btn-outline {
+  flex: 1 1 140px;
+}
+
 .form {
   display: grid;
   gap: 12px;
@@ -805,6 +912,27 @@ body.modal-open {
   .admin-content {
     padding: 12px;
   }
+  .admin-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .admin-toolbar-actions {
+    width: 100%;
+  }
+  .admin-toolbar-actions .btn,
+  .admin-toolbar-actions .btn-outline,
+  .admin-toolbar-actions .action-link {
+    width: 100%;
+    text-align: center;
+  }
+  .admin-tabs {
+    flex-direction: column;
+    border-radius: 16px;
+  }
+  .admin-tabs a {
+    width: 100%;
+    text-align: center;
+  }
   .form .btn {
     width: 100%;
     min-width: 0;
@@ -813,6 +941,52 @@ body.modal-open {
   .table td {
     font-size: 13px;
     padding: 9px 10px;
+  }
+
+  .admin-table {
+    border: 0;
+  }
+  .admin-table thead {
+    display: none;
+  }
+  .admin-table tbody,
+  .admin-table tr,
+  .admin-table td {
+    display: block;
+    width: 100%;
+  }
+  .admin-table tr {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  .admin-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px dashed #e8eef2;
+  }
+  .admin-table td:last-child {
+    border-bottom: 0;
+  }
+  .admin-table td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .admin-table .table-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .admin-table .table-actions a {
+    flex: 1 1 100%;
+    text-align: center;
   }
 }
 
@@ -1136,6 +1310,54 @@ body.modal-open {
 @media (max-width: 640px) {
   .mobile-subcat-grid .cat-icon {
     overflow: hidden;
+  }
+
+  .admin-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-toolbar-actions {
+    width: 100%;
+  }
+
+  .admin-toolbar-actions .btn,
+  .admin-toolbar-actions .btn-outline,
+  .admin-toolbar-actions .action-link {
+    width: 100%;
+    text-align: center;
+  }
+
+  .admin-tabs {
+    flex-direction: column;
+    border-radius: 16px;
+  }
+
+  .admin-tabs a {
+    width: 100%;
+    text-align: center;
+  }
+
+  .admin-section {
+    padding: 12px;
+  }
+
+  .store-card {
+    padding: 12px;
+  }
+
+  .store-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .store-card-actions {
+    flex-direction: column;
+  }
+
+  .store-card-actions .btn,
+  .store-card-actions .btn-outline {
+    width: 100%;
   }
 }
 

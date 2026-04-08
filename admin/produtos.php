@@ -11,7 +11,8 @@ $form_error = null;
 $edit = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $preco = (float)str_replace(',', '.', $_POST['preco'] ?? 0);
+    $preco_raw = trim($_POST['preco'] ?? '');
+    $preco = $preco_raw !== '' ? (float)str_replace(',', '.', $preco_raw) : null;
     $promo_ativa = (int)($_POST['promocao_ativa'] ?? 0);
     $tipo_desconto = $_POST['tipo_desconto'] ?? 'nenhum';
     $tipo_desconto = in_array($tipo_desconto, ['nenhum', 'percentual', 'valor'], true) ? $tipo_desconto : 'nenhum';
@@ -27,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data_fim_promocao = null;
     }
 
-    if ($preco <= 0) {
+    if ($preco !== null && $preco <= 0) {
         $form_error = 'Informe um preço válido.';
     }
 
@@ -40,12 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($tipo_desconto === 'valor') {
         if ($valor_desconto <= 0) {
             $form_error = 'Valor de desconto inválido.';
-        } elseif ($preco > 0 && $valor_desconto >= $preco) {
+        } elseif ($preco !== null && $preco > 0 && $valor_desconto >= $preco) {
             $form_error = 'O desconto não pode ser maior ou igual ao preço.';
         }
     }
 
-    if ($data_fim_promocao !== '') {
+    if ($data_fim_promocao !== '' && $data_fim_promocao !== null) {
         $dt = DateTime::createFromFormat('Y-m-d', $data_fim_promocao);
         if (!$dt || $dt->format('Y-m-d') !== $data_fim_promocao) {
             $form_error = 'Data final da promoção inválida.';
@@ -104,6 +105,11 @@ if (!$edit && isset($_GET['edit'])) {
     $edit = Produto::find((int)$_GET['edit']);
 }
 
+$prefill_loja_id = (int)($_GET['loja_id'] ?? 0);
+if (!$edit && $prefill_loja_id > 0) {
+    $edit = ['loja_id' => $prefill_loja_id];
+}
+
 $produtos = Produto::all();
 $lojistas = Loja::all();
 $categorias = Categoria::all();
@@ -139,7 +145,7 @@ require_once '../includes/header.php';
         <input type="text" name="nome" value="<?php echo e($edit['nome'] ?? ''); ?>" required>
       </label>
       <label>Preço
-        <input type="number" step="0.01" name="preco" value="<?php echo e($edit['preco'] ?? ''); ?>" required>
+        <input type="number" step="0.01" name="preco" value="<?php echo e($edit['preco'] ?? ''); ?>">
       </label>
       <label>Imagem do produto
         <input type="file" name="imagem" accept=".jpg,.jpeg,.png,.webp,.gif,.svg">
