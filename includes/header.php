@@ -28,6 +28,18 @@ $page_og_image = $page_og_image ?? ($asset_base . '/img/og.svg');
 $cart_store_count = cart_count_stores();
 $cart_item_count = cart_count_items();
 $cart_label = $cart_store_count > 0 ? 'Carrinhos (' . $cart_store_count . ')' : 'Carrinhos';
+$cart_notice = cart_pop_notice();
+$cart_notice_message = '';
+$cart_notice_link = '';
+if (is_array($cart_notice)) {
+    $cart_notice_message = (string)($cart_notice['message'] ?? '');
+    $notice_loja_id = $cart_notice['loja_id'] ?? null;
+    if ($notice_loja_id) {
+        $cart_notice_link = $public_base . '/carrinho.php?loja_id=' . (int)$notice_loja_id;
+    } else {
+        $cart_notice_link = $public_base . '/index.php?open_carts=1';
+    }
+}
 
 $is_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
     || (($_SERVER['SERVER_PORT'] ?? '') === '443');
@@ -114,6 +126,19 @@ if ($is_admin_path) {
     </div>
   <?php endif; ?>
 </header>
+<?php if (!empty($cart_notice_message)): ?>
+  <div class="toast" id="cart-toast" role="status" aria-live="polite">
+    <span class="toast-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M8 12.5l2.5 2.5L16.5 9"></path>
+      </svg>
+    </span>
+    <span class="toast-text"><?php echo e($cart_notice_message); ?></span>
+    <a class="toast-cta" href="<?php echo e($cart_notice_link); ?>">Carrinho</a>
+    <button class="toast-close" type="button" aria-label="Fechar notificação">×</button>
+  </div>
+<?php endif; ?>
 <main class="container">
 
 

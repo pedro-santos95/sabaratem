@@ -108,6 +108,17 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  var cartToast = document.getElementById('cart-toast');
+  if (cartToast) {
+    var toastClose = cartToast.querySelector('.toast-close');
+    if (toastClose) {
+      toastClose.addEventListener('click', function (e) {
+        e.preventDefault();
+        cartToast.classList.add('hide');
+      });
+    }
+  }
+
   var categories = document.querySelector('[data-filter="categories"]');
   var grid = document.getElementById('products-grid');
   var searchForm = document.querySelector('.search form');
@@ -130,7 +141,6 @@ document.addEventListener('DOMContentLoaded', function () {
           '<div class="card-actions">' +
             '<a class="btn" href="' + publicBase + '/produto.php?id=' + p.id + '">Ver produto</a>' +
             '<a class="btn-outline" href="' + publicBase + '/carrinho.php?action=add&produto_id=' + p.id + '&redirect=' + redirectParam + '">Adicionar ao carrinho</a>' +
-            (whatsapp ? '<a class="btn-outline" target="_blank" rel="noopener" href="https://wa.me/' + whatsapp + '?text=' + encodeURIComponent('Olá! Tenho interesse no produto: ' + p.nome) + '">WhatsApp</a>' : '') +
           '</div>' +
         '</div>' +
       '</article>';

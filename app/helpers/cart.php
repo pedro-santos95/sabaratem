@@ -92,6 +92,24 @@ function cart_count_stores() {
     return count($carts);
 }
 
+function cart_set_notice($message, $loja_id = null) {
+    start_session();
+    $_SESSION['cart_notice'] = [
+        'message' => (string)$message,
+        'loja_id' => $loja_id !== null ? (int)$loja_id : null
+    ];
+}
+
+function cart_pop_notice() {
+    start_session();
+    if (!empty($_SESSION['cart_notice']) && is_array($_SESSION['cart_notice'])) {
+        $msg = $_SESSION['cart_notice'];
+        unset($_SESSION['cart_notice']);
+        return $msg;
+    }
+    return null;
+}
+
 function cart_sanitize_redirect($url) {
     $url = trim((string)$url);
     if ($url === '') {

@@ -30,6 +30,8 @@ if ($action !== '') {
         $produto = $produto_id ? Produto::find($produto_id) : null;
         if ($produto) {
             cart_add_item($produto['loja_id'], $produto['id'], $qty);
+            $notice_name = $produto['nome'] ?? 'Produto';
+            cart_set_notice($notice_name . ' adicionado ao carrinho.', (int)$produto['loja_id']);
             $loja_id = (int)$produto['loja_id'];
             if ($redirect !== '') {
                 header('Location: ' . $redirect);

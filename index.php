@@ -220,7 +220,6 @@ $open_carts = (int)($_GET['open_carts'] ?? 0) === 1;
           <div class="card-actions">
             <a class="btn" href="produto.php?id=<?php echo e($p['id']); ?>">Ver produto</a>
             <a class="btn-outline" href="<?php echo e($public_base); ?>/carrinho.php?action=add&produto_id=<?php echo e($p['id']); ?>&redirect=<?php echo e(rawurlencode($current_path)); ?>">Adicionar ao carrinho</a>
-            <a class="btn-outline" href="<?php echo e(wa_link($p['loja_whatsapp'], 'Olá! Tenho interesse no produto: ' . $p['nome'])); ?>" target="_blank">WhatsApp</a>
           </div>
         </div>
       </article>
