@@ -36,7 +36,6 @@ CREATE TABLE produtos (
   tipo_desconto VARCHAR(20) NOT NULL DEFAULT 'nenhum',
   valor_desconto DECIMAL(10,2) NOT NULL DEFAULT 0,
   data_fim_promocao DATE NULL,
-  preco_alternativo DECIMAL(10,2) NULL,
   texto_alternativo VARCHAR(255) NULL,
   descricao TEXT,
   FOREIGN KEY (loja_id) REFERENCES lojas(id),

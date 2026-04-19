@@ -18,8 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tipo_desconto = in_array($tipo_desconto, ['nenhum', 'percentual', 'valor'], true) ? $tipo_desconto : 'nenhum';
     $valor_desconto = (float)str_replace(',', '.', $_POST['valor_desconto'] ?? 0);
     $data_fim_promocao = trim($_POST['data_fim_promocao'] ?? '');
-    $preco_alternativo_raw = trim($_POST['preco_alternativo'] ?? '');
-    $preco_alternativo = $preco_alternativo_raw !== '' ? (float)str_replace(',', '.', $preco_alternativo_raw) : null;
     $texto_alternativo = trim($_POST['texto_alternativo'] ?? '');
 
     if ($promo_ativa !== 1) {
@@ -55,10 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data_fim_promocao = null;
     }
 
-    if ($preco_alternativo !== null && $preco_alternativo < 0) {
-        $form_error = 'Preço alternativo inválido.';
-    }
-
     $imagem = $_POST['imagem_atual'] ?? '';
     $upload = upload_image($_FILES['imagem'] ?? null, 'produtos');
     if ($upload) {
@@ -82,7 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'tipo_desconto' => $tipo_desconto,
         'valor_desconto' => $valor_desconto,
         'data_fim_promocao' => $data_fim_promocao,
-        'preco_alternativo' => $preco_alternativo,
         'texto_alternativo' => $texto_alternativo
     ];
 
@@ -122,7 +115,6 @@ if (($tipo_desconto_form === '' || $tipo_desconto_form === 'nenhum') && !empty($
     $valor_desconto_form = (float)$edit['porcentagem_promocao'];
 }
 $data_fim_form = $edit['data_fim_promocao'] ?? '';
-$preco_alt_form = $edit['preco_alternativo'] ?? '';
 $texto_alt_form = $edit['texto_alternativo'] ?? '';
 $promo_ativa_form = ($tipo_desconto_form !== 'nenhum' && (float)$valor_desconto_form > 0) ? 1 : 0;
 
@@ -207,10 +199,6 @@ require_once '../includes/header.php';
         <small class="muted">Deixe vazio para promoção sem data final.</small>
       </label>
 
-      <label>Preço Alternativo
-        <input type="number" step="0.01" name="preco_alternativo" value="<?php echo e($preco_alt_form); ?>">
-      </label>
-
       <label>Texto Alternativo
         <input type="text" name="texto_alternativo" value="<?php echo e($texto_alt_form); ?>" placeholder="Ex: Frete Grátis">
       </label>
@@ -236,7 +224,7 @@ require_once '../includes/header.php';
               <td data-label="Produto"><?php echo e($p['nome']); ?></td>
               <td data-label="Subcategoria"><?php echo e($p['subcategoria_nome'] ?? ''); ?></td>
               <td data-label="Loja"><?php echo e($p['loja_nome']); ?></td>
-              <td data-label="Pre&ccedil;o"><?php echo e(format_price($p['preco'])); ?></td>
+              <td data-label="Pre&ccedil;o"><?php echo e(format_product_price($p['preco'])); ?></td>
               <td data-label="Promo&ccedil;&atilde;o">
                 <?php if (!empty($p['promo_ativa'])): ?>
                   <?php if (($p['tipo_desconto'] ?? '') === 'percentual'): ?>

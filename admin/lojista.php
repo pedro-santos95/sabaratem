@@ -154,7 +154,7 @@ require_once '../includes/header.php';
                   <td data-label="Produto"><?php echo e($p['nome']); ?></td>
                   <td data-label="Categoria"><?php echo e($p['categoria_nome'] ?? ''); ?></td>
                   <td data-label="Subcategoria"><?php echo e($p['subcategoria_nome'] ?? ''); ?></td>
-                  <td data-label="Pre&ccedil;o"><?php echo e(format_price($p['preco'])); ?></td>
+                  <td data-label="Pre&ccedil;o"><?php echo e(format_product_price($p['preco'])); ?></td>
                   <td data-label="A&ccedil;&otilde;es" class="table-actions">
                     <a class="action-link edit" href="produtos.php?edit=<?php echo e($p['id']); ?>">Editar</a>
                     <a class="action-link delete" href="lojista.php?id=<?php echo e($loja_id); ?>&delete_prod=<?php echo e($p['id']); ?>" onclick="return confirm('Excluir produto?');">Excluir</a>

@@ -116,6 +116,7 @@ $items = ($loja_id > 0 && isset($carts[$loja_id]) && is_array($carts[$loja_id]))
 $cart_rows = [];
 $total = 0;
 $total_items = 0;
+$cart_has_unpriced = false;
 
 if ($loja && $items) {
     foreach ($items as $produto_id => $qty) {
@@ -128,9 +129,14 @@ if ($loja && $items) {
         if ($qty <= 0) {
             continue;
         }
-        $preco = !empty($produto['promo_ativa']) ? (float)$produto['preco_final'] : (float)$produto['preco'];
-        $subtotal = $preco * $qty;
-        $total += $subtotal;
+        $has_price = has_product_price($produto['preco']);
+        $preco = ($has_price && !empty($produto['promo_ativa'])) ? (float)$produto['preco_final'] : (float)$produto['preco'];
+        $subtotal = $has_price ? ($preco * $qty) : 0;
+        if ($has_price) {
+            $total += $subtotal;
+        } else {
+            $cart_has_unpriced = true;
+        }
         $total_items += $qty;
         $cart_rows[] = [
             'id' => (int)$produto['id'],
@@ -138,7 +144,8 @@ if ($loja && $items) {
             'imagem' => $produto['imagem'],
             'preco' => $preco,
             'preco_original' => (float)$produto['preco'],
-            'promo_ativa' => !empty($produto['promo_ativa']),
+            'promo_ativa' => !empty($produto['promo_ativa']) && $has_price,
+            'has_price' => $has_price,
             'qty' => $qty,
             'subtotal' => $subtotal,
         ];
@@ -158,10 +165,12 @@ if ($loja && $cart_rows) {
     $linhas = [];
     $linhas[] = 'Olá! Quero finalizar meu pedido na loja ' . $loja['nome'] . ':';
     foreach ($cart_rows as $item) {
-        $linha = $item['qty'] . 'x ' . $item['nome'] . ' - ' . format_price($item['preco']) . ' (subtotal ' . format_price($item['subtotal']) . ')';
+        $linha = !empty($item['has_price'])
+            ? ($item['qty'] . 'x ' . $item['nome'] . ' - ' . format_price($item['preco']) . ' (subtotal ' . format_price($item['subtotal']) . ')')
+            : ($item['qty'] . 'x ' . $item['nome'] . ' - Consultar');
         $linhas[] = $linha;
     }
-    $linhas[] = 'Total: ' . format_price($total);
+    $linhas[] = 'Total: ' . ($cart_has_unpriced ? 'Consultar' : format_price($total));
     $base_message = implode("\n", $linhas);
     $whatsapp_link = wa_link($loja['whatsapp'], $base_message);
 
@@ -202,7 +211,7 @@ if ($loja && $cart_rows) {
           </thead>
           <tbody>
             <?php foreach ($cart_rows as $item): ?>
-              <tr class="cart-row" data-id="<?php echo e($item['id']); ?>" data-unit-price="<?php echo e(number_format($item['preco'], 2, '.', '')); ?>" data-name="<?php echo e($item['nome']); ?>">
+              <tr class="cart-row" data-id="<?php echo e($item['id']); ?>" data-unit-price="<?php echo e(number_format($item['preco'], 2, '.', '')); ?>" data-price-known="<?php echo !empty($item['has_price']) ? '1' : '0'; ?>" data-name="<?php echo e($item['nome']); ?>">
                 <td data-label="Produto">
                   <div class="cart-item">
                     <img src="<?php echo e(img_src($item['imagem'])); ?>" alt="<?php echo e($item['nome']); ?>" loading="lazy" decoding="async">
@@ -214,11 +223,11 @@ if ($loja && $cart_rows) {
                     </div>
                   </div>
                 </td>
-                <td data-label="Preço"><?php echo e(format_price($item['preco'])); ?></td>
+                <td data-label="Preço"><?php echo e(format_product_price(!empty($item['has_price']) ? $item['preco'] : null)); ?></td>
                 <td data-label="Qtd.">
                   <input class="qty-input js-qty" type="number" name="qty[<?php echo e($item['id']); ?>]" min="0" value="<?php echo e($item['qty']); ?>">
                 </td>
-                <td data-label="Subtotal"><span class="js-subtotal"><?php echo e(format_price($item['subtotal'])); ?></span></td>
+                <td data-label="Subtotal"><span class="js-subtotal"><?php echo e(format_product_price(!empty($item['has_price']) ? $item['subtotal'] : null)); ?></span></td>
                 <td data-label="Ação">
                   <button class="action-link delete" type="submit" name="remove_id" value="<?php echo e($item['id']); ?>">Remover</button>
                 </td>
@@ -234,7 +243,7 @@ if ($loja && $cart_rows) {
         </div>
         <div class="summary-card">
           <span>Total</span>
-          <strong id="cart-total-price"><?php echo e(format_price($total)); ?></strong>
+          <strong id="cart-total-price"><?php echo e($cart_has_unpriced ? 'Consultar' : format_price($total)); ?></strong>
         </div>
         <div class="summary-actions">
           <button class="btn-outline" type="submit" name="action" value="update">Atualizar carrinho</button>

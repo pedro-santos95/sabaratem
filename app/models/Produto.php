@@ -166,7 +166,7 @@ class Produto {
 
     public static function create($data) {
         global $pdo;
-        $stmt = $pdo->prepare('INSERT INTO produtos (loja_id, categoria_id, subcategoria_id, nome, preco, imagem, descricao, em_promocao, porcentagem_promocao, tipo_desconto, valor_desconto, data_fim_promocao, preco_alternativo, texto_alternativo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        $stmt = $pdo->prepare('INSERT INTO produtos (loja_id, categoria_id, subcategoria_id, nome, preco, imagem, descricao, em_promocao, porcentagem_promocao, tipo_desconto, valor_desconto, data_fim_promocao, texto_alternativo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
         $stmt->execute([
             $data['loja_id'],
             $data['categoria_id'],
@@ -180,7 +180,6 @@ class Produto {
             $data['tipo_desconto'],
             $data['valor_desconto'],
             $data['data_fim_promocao'],
-            $data['preco_alternativo'],
             $data['texto_alternativo']
         ]);
         return $pdo->lastInsertId();
@@ -188,7 +187,7 @@ class Produto {
 
     public static function update($id, $data) {
         global $pdo;
-        $stmt = $pdo->prepare('UPDATE produtos SET loja_id = ?, categoria_id = ?, subcategoria_id = ?, nome = ?, preco = ?, imagem = ?, descricao = ?, em_promocao = ?, porcentagem_promocao = ?, tipo_desconto = ?, valor_desconto = ?, data_fim_promocao = ?, preco_alternativo = ?, texto_alternativo = ? WHERE id = ?');
+        $stmt = $pdo->prepare('UPDATE produtos SET loja_id = ?, categoria_id = ?, subcategoria_id = ?, nome = ?, preco = ?, imagem = ?, descricao = ?, em_promocao = ?, porcentagem_promocao = ?, tipo_desconto = ?, valor_desconto = ?, data_fim_promocao = ?, texto_alternativo = ? WHERE id = ?');
         return $stmt->execute([
             $data['loja_id'],
             $data['categoria_id'],
@@ -202,7 +201,6 @@ class Produto {
             $data['tipo_desconto'],
             $data['valor_desconto'],
             $data['data_fim_promocao'],
-            $data['preco_alternativo'],
             $data['texto_alternativo'],
             $id
         ]);

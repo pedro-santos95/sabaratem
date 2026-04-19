@@ -21,19 +21,16 @@ require_once BASE_PATH . '/includes/header.php';
     <div class="produto-info">
       <h1><?php echo e($produto['nome']); ?></h1>
       <div class="price-block">
-        <?php if (!empty($produto['promo_ativa'])): ?>
+        <?php if (!empty($produto['promo_ativa']) && has_product_price($produto['preco'])): ?>
           <span class="price-original"><?php echo e(format_price($produto['preco'])); ?></span>
-          <span class="price price-final"><?php echo e(format_price($produto['preco_final'])); ?></span>
+          <span class="price price-final"><?php echo e(format_product_price($produto['preco_final'])); ?></span>
         <?php else: ?>
-          <span class="price price-final"><?php echo e(format_price($produto['preco'])); ?></span>
-        <?php endif; ?>
-        <?php if (!empty($produto['preco_alternativo'])): ?>
-          <span class="price-alt">Preço alternativo: <?php echo e(format_price($produto['preco_alternativo'])); ?></span>
+          <span class="price price-final"><?php echo e(format_product_price($produto['preco'])); ?></span>
         <?php endif; ?>
         <?php if (!empty($produto['texto_alternativo'])): ?>
           <span class="price-note"><?php echo e($produto['texto_alternativo']); ?></span>
         <?php endif; ?>
-        <?php if (!empty($produto['promo_ativa']) && !empty($produto['data_fim_promocao'])): ?>
+        <?php if (!empty($produto['promo_ativa']) && has_product_price($produto['preco']) && !empty($produto['data_fim_promocao'])): ?>
           <?php
             $fim = DateTime::createFromFormat('Y-m-d', $produto['data_fim_promocao']);
             $mostrar_prazo = false;

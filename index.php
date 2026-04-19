@@ -174,7 +174,7 @@ $open_carts = (int)($_GET['open_carts'] ?? 0) === 1;
         </div>
         <div class="grid" id="products-grid">
     <?php foreach ($produtos as $p): ?>
-      <article class="card">        <?php if (!empty($p['promo_ativa'])): ?>
+      <article class="card">        <?php if (!empty($p['promo_ativa']) && has_product_price($p['preco'])): ?>
           <span class="promo-badge">
             <?php if (($p['tipo_desconto'] ?? '') === 'percentual'): ?>
               <?php $percent = rtrim(rtrim(number_format((float)$p['valor_desconto'], 2, ',', '.'), '0'), ','); ?>
@@ -188,19 +188,16 @@ $open_carts = (int)($_GET['open_carts'] ?? 0) === 1;
         <div class="card-body">
           <h2><?php echo e($p['nome']); ?></h2>
           <div class="price-block">
-            <?php if (!empty($p['promo_ativa'])): ?>
+            <?php if (!empty($p['promo_ativa']) && has_product_price($p['preco'])): ?>
               <span class="price-original"><?php echo e(format_price($p['preco'])); ?></span>
-              <span class="price price-final"><?php echo e(format_price($p['preco_final'])); ?></span>
+              <span class="price price-final"><?php echo e(format_product_price($p['preco_final'])); ?></span>
             <?php else: ?>
-              <span class="price price-final"><?php echo e(format_price($p['preco'])); ?></span>
-            <?php endif; ?>
-            <?php if (!empty($p['preco_alternativo'])): ?>
-              <span class="price-alt">Preço alternativo: <?php echo e(format_price($p['preco_alternativo'])); ?></span>
+              <span class="price price-final"><?php echo e(format_product_price($p['preco'])); ?></span>
             <?php endif; ?>
             <?php if (!empty($p['texto_alternativo'])): ?>
               <span class="price-note"><?php echo e($p['texto_alternativo']); ?></span>
             <?php endif; ?>
-            <?php if (!empty($p['promo_ativa']) && !empty($p['data_fim_promocao'])): ?>
+            <?php if (!empty($p['promo_ativa']) && has_product_price($p['preco']) && !empty($p['data_fim_promocao'])): ?>
               <?php
                 $fim = DateTime::createFromFormat('Y-m-d', $p['data_fim_promocao']);
                 $mostrar_prazo = false;

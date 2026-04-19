@@ -28,6 +28,18 @@ document.addEventListener('DOMContentLoaded', function () {
     return path;
   }
 
+  function hasPrice(value) {
+    if (value === null || value === undefined || value === '') {
+      return false;
+    }
+    var num = Number(value);
+    return !isNaN(num) && num > 0;
+  }
+
+  function formatProductPrice(value) {
+    return hasPrice(value) ? ('R$ ' + Number(value).toFixed(2).replace('.', ',')) : 'Consultar';
+  }
+
   var input = document.getElementById('search-input');
   var results = document.getElementById('search-results');
 
@@ -129,15 +141,17 @@ document.addEventListener('DOMContentLoaded', function () {
       var img = normalizeAsset(p.imagem);
       var whatsapp = (p.loja_whatsapp || '').replace(/\D+/g, '');
       var badge = '';
-      if (Number(p.em_promocao) === 1 && Number(p.porcentagem_promocao) > 0) {
+      if (Number(p.em_promocao) === 1 && Number(p.porcentagem_promocao) > 0 && hasPrice(p.preco)) {
         badge = '<span class="promo-badge">-' + Number(p.porcentagem_promocao) + '%</span>';
       }
+      var showPromo = Number(p.em_promocao) === 1 && hasPrice(p.preco);
+      var displayPrice = showPromo ? formatProductPrice(p.preco_final) : formatProductPrice(p.preco);
       html += '<article class="card">' +
         badge +
         '<img src="' + img + '" alt="' + p.nome.replace(/"/g, '') + '" loading="lazy" decoding="async">' +
         '<div class="card-body">' +
           '<h2>' + p.nome + '</h2>' +
-          '<p class="price">R$ ' + Number(p.preco_final || p.preco).toFixed(2).replace('.', ',') + '</p>' +
+          '<p class="price">' + displayPrice + '</p>' +
           '<div class="card-actions">' +
             '<a class="btn" href="' + publicBase + '/produto.php?id=' + p.id + '">Ver produto</a>' +
             '<a class="btn-outline" href="' + publicBase + '/carrinho.php?action=add&produto_id=' + p.id + '&redirect=' + redirectParam + '">Adicionar ao carrinho</a>' +
@@ -283,10 +297,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var cartTotalPrice = document.getElementById('cart-total-price');
     var cartCheckoutButtons = document.querySelectorAll('.js-checkout-open');
     var cartSaveTimer = null;
-    var lastSnapshot = { items: [], totalItems: 0, totalValue: 0 };
+    var lastSnapshot = { items: [], totalItems: 0, totalValue: 0, hasUnpriced: false };
     var saleTracked = false;
 
-    function buildCartMessage(rows, totalValue) {
+    function buildCartMessage(rows, totalValue, hasUnpriced) {
       var storeName = cartForm.getAttribute('data-store-name') || '';
       var lines = [];
       if (storeName) {
@@ -301,9 +315,14 @@ document.addEventListener('DOMContentLoaded', function () {
         var unit = Number(row.dataset.unitPrice || 0);
         var subtotal = qty * unit;
         var name = row.dataset.name || '';
-        lines.push(qty + 'x ' + name + ' - ' + formatBRL(unit) + ' (subtotal ' + formatBRL(subtotal) + ')');
+        var priceKnown = row.dataset.priceKnown === '1';
+        if (priceKnown) {
+          lines.push(qty + 'x ' + name + ' - ' + formatBRL(unit) + ' (subtotal ' + formatBRL(subtotal) + ')');
+        } else {
+          lines.push(qty + 'x ' + name + ' - Consultar');
+        }
       });
-      lines.push('Total: ' + formatBRL(totalValue));
+      lines.push('Total: ' + (hasUnpriced ? 'Consultar' : formatBRL(totalValue)));
       return lines.join('\n');
     }
 
@@ -312,6 +331,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var totalItems = 0;
       var totalValue = 0;
       var items = [];
+      var hasUnpriced = false;
 
       rows.forEach(function (row) {
         var qtyInput = row.querySelector('.js-qty');
@@ -319,22 +339,27 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isNaN(qty) || qty < 0) {
           qty = 0;
         }
+        var priceKnown = row.dataset.priceKnown === '1';
         var unit = Number(row.dataset.unitPrice || 0);
-        var subtotal = qty * unit;
+        var subtotal = priceKnown ? (qty * unit) : 0;
         totalItems += qty;
-        totalValue += subtotal;
+        if (priceKnown) {
+          totalValue += subtotal;
+        } else if (qty > 0) {
+          hasUnpriced = true;
+        }
 
         var subtotalEl = row.querySelector('.js-subtotal');
         if (subtotalEl) {
-          subtotalEl.textContent = formatBRL(subtotal);
+          subtotalEl.textContent = priceKnown ? formatBRL(subtotal) : 'Consultar';
         }
 
         if (qty > 0) {
           items.push({
             name: row.dataset.name || '',
             qty: qty,
-            unit: unit,
-            subtotal: subtotal
+            unit: priceKnown ? unit : null,
+            subtotal: priceKnown ? subtotal : null
           });
         }
       });
@@ -343,11 +368,11 @@ document.addEventListener('DOMContentLoaded', function () {
         cartTotalItems.textContent = totalItems;
       }
       if (cartTotalPrice) {
-        cartTotalPrice.textContent = formatBRL(totalValue);
+        cartTotalPrice.textContent = hasUnpriced ? 'Consultar' : formatBRL(totalValue);
       }
 
       if (cartCheckoutButtons.length) {
-        var message = buildCartMessage(rows, totalValue);
+        var message = buildCartMessage(rows, totalValue, hasUnpriced);
         cartCheckoutButtons.forEach(function (btn) {
           btn.setAttribute('data-wa-message', message);
         });
@@ -356,7 +381,8 @@ document.addEventListener('DOMContentLoaded', function () {
       lastSnapshot = {
         items: items,
         totalItems: totalItems,
-        totalValue: totalValue
+        totalValue: totalValue,
+        hasUnpriced: hasUnpriced
       };
     }
 
@@ -402,7 +428,8 @@ document.addEventListener('DOMContentLoaded', function () {
         date: new Date().toISOString(),
         store: storeName,
         store_id: storeId,
-        total: lastSnapshot.totalValue,
+        total: lastSnapshot.hasUnpriced ? null : lastSnapshot.totalValue,
+        has_unpriced: !!lastSnapshot.hasUnpriced,
         items: lastSnapshot.items,
         customer: customer
       };
@@ -722,9 +749,12 @@ document.addEventListener('DOMContentLoaded', function () {
         order.items.forEach(function (item) {
           var name = escapeHtml(item.name || '');
           var qty = Number(item.qty || 0);
-          var unit = Number(item.unit || 0);
-          var subtotal = Number(item.subtotal || (qty * unit));
-          itemsHtml += '<div class="order-item">' + qty + 'x ' + name + ' - ' + formatBRL(unit) + ' (subtotal ' + formatBRL(subtotal) + ')</div>';
+          var unitKnown = hasPrice(item.unit);
+          var unit = unitKnown ? Number(item.unit) : 0;
+          var subtotal = unitKnown ? Number(item.subtotal || (qty * unit)) : 0;
+          var unitText = unitKnown ? formatBRL(unit) : 'Consultar';
+          var subtotalText = unitKnown ? formatBRL(subtotal) : 'Consultar';
+          itemsHtml += '<div class="order-item">' + qty + 'x ' + name + ' - ' + unitText + ' (subtotal ' + subtotalText + ')</div>';
         });
       }
 
@@ -732,7 +762,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var address = escapeHtml(customer.address || '');
       var contact = escapeHtml(customer.contact || '');
       var payment = escapeHtml(customer.payment || '');
-      var total = formatBRL(order.total || 0);
+      var total = order.has_unpriced ? 'Consultar' : formatBRL(order.total || 0);
       var storeLink = order.store_id ? '<a class="btn-outline" href="' + publicBase + '/loja.php?id=' + encodeURIComponent(order.store_id) + '">Ver loja</a>' : '';
 
       html += '<article class="order-card">' +

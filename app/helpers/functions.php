@@ -7,6 +7,27 @@ function format_price($value) {
     return 'R$ ' . number_format((float)$value, 2, ',', '.');
 }
 
+function has_product_price($value) {
+    if ($value === null) {
+        return false;
+    }
+    if (is_string($value)) {
+        $value = trim($value);
+        if ($value === '') {
+            return false;
+        }
+        $value = str_replace(',', '.', $value);
+    }
+    if (!is_numeric($value)) {
+        return false;
+    }
+    return (float)$value > 0;
+}
+
+function format_product_price($value, $fallback = 'Consultar') {
+    return has_product_price($value) ? format_price($value) : $fallback;
+}
+
 function wa_link($phone, $text) {
     $digits = preg_replace('/\D+/', '', (string)$phone);
     if (strlen($digits) <= 11) {
